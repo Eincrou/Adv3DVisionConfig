@@ -11,7 +11,7 @@ namespace Advanced3DVConfig.ViewModel
 {
     class HexToKeyboardConverter : IValueConverter
     {
-        private readonly Dictionary<String, String> modifierKeys = new Dictionary<string, string>()
+        private readonly Dictionary<String, String> _modifierKeys = new Dictionary<string, string>()
         {
             {"00", "NONE"},
             {"01", "SHIFT"},
@@ -31,9 +31,9 @@ namespace Advanced3DVConfig.ViewModel
             {"0F", "ALT+CTRL+SHIFT+WIN"},
         };
 
-        private readonly string[] mouseButtons = new string[]
+        private readonly string[] _mouseButtons = new string[]
         {
-            "MOUSE LEFT", "MOUSE RIGHT", "INVALID", "MOUSE MIDDLE", "MOUSE BACK", "MOUSE FORWARD"
+            "MouseLeft", "MouseRight", "INVALID", "MouseMiddle", "MouseBack", "MouseForward"
         };
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -45,14 +45,14 @@ namespace Advanced3DVConfig.ViewModel
                 string second = s.Substring(2, 2);
                 if (Int32.Parse(first, NumberStyles.HexNumber) > 15)
                     return "modifier error";
-                string keyFirst = modifierKeys[first.ToUpperInvariant()];
+                string keyFirst = _modifierKeys[first.ToUpperInvariant()];
 
                 int keySecondInt = Int32.Parse((string) second, NumberStyles.HexNumber);
                 string keySecond;
                 if (keySecondInt >7)
                     keySecond = KeyInterop.KeyFromVirtualKey(keySecondInt).ToString();
                 else if (keySecondInt < 7 && keySecondInt > 0)
-                    keySecond = mouseButtons[keySecondInt - 1];
+                    keySecond = _mouseButtons[keySecondInt - 1];
                 else
                     keySecond = "invalid key";
                 
