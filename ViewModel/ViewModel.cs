@@ -52,8 +52,9 @@ namespace Advanced3DVConfig.ViewModel
 
         public void SaveSettings()
         {
-            _s3DKeys.SaveSettingsToRegistry();
-            MessageBox.Show("Settings saved.", "Save success");
+            string savedSettings = _s3DKeys.SaveSettingsToRegistry();
+            string saveMessage = "Settings saved.\r\n" + savedSettings;
+            MessageBox.Show(saveMessage, "Save success");
         }
     }
 }
