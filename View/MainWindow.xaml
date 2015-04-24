@@ -233,16 +233,20 @@
                                        Cursor="Hand" MouseLeftButtonDown="ModifiersRefBlock_OnMouseLeftButtonDown"
                                        ToolTip="http://3dvision-blog.com/3053-modifying-all-3d-vision-control-key-combinations-as-you-need/" />
                         <StackPanel Orientation="Horizontal" Margin="0,3">
-                            <Label Content="Stereo_ImageType: " FontSize="14" Margin="0,0,5,0" />
+                            <Label Content="Stereo_ImageType: " FontSize="14" Margin="0,0,5,0" 
+                                   ToolTip="Format for stereoscopic screenshot images. (JPEG or PNG)&#x0a;Maximum number of images per application before overwrite: JPS 99, PNS 999"/>
                             <ComboBox x:Name="StereImageTypeCombo" SelectedIndex="{Binding StereoImageType, Mode=TwoWay}"
                                       
                                           FontSize="14" Height="24" Foreground="White" BorderBrush="#FF383838">
                                 <ComboBoxItem Content="JPS" />
                                 <ComboBoxItem Content="PNS" />
                             </ComboBox>
+                            <TextBlock Name="OpenImagesDirBlock" Text="Open directory" FontSize="12" Foreground="YellowGreen"
+                                       VerticalAlignment="Center"  Margin="30,0,0,0" Cursor="Hand" MouseLeftButtonDown="OpenImagesDirBlock_OnMouseLeftButtonDown"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
-                            <Label Content="JPS _Quality:" FontSize="14" Margin="0,0,0,0" />
+                            <Label Content="JPS _Quality:" FontSize="14" Margin="0,0,0,0" 
+                                   ToolTip="Determines image quality and file size."/>
                             <xctk:IntegerUpDown Name="SnapShotQualityUpDown" Minimum="1" Maximum="100" Increment="5"
                                                     Value="{Binding SnapShotQuality, Mode=TwoWay}"
                                                     ParsingNumberStyle="Integer" Width="46" Margin="5,0"

@@ -32,5 +32,13 @@ namespace Advanced3DVConfig.View
         {
             System.Diagnostics.Process.Start("http://3dvision-blog.com/3053-modifying-all-3d-vision-control-key-combinations-as-you-need/");
         }
+
+        private void OpenImagesDirBlock_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            string stereoImagesDir =
+                System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    "NVStereoscopic3D.IMG");
+            System.Diagnostics.Process.Start(stereoImagesDir);
+        }
     }
 }
