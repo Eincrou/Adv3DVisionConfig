@@ -9,7 +9,7 @@ namespace Advanced3DVConfig.ViewModel
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool boolToReturn;
-            if ((value is int) && ((int) value == 1))
+            if ((value is int) && ((int) value > 0))
                 boolToReturn = true;
             else
                 boolToReturn = false;

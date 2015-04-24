@@ -17,8 +17,8 @@ namespace Advanced3DVConfig.Model
 
         private readonly Dictionary<string, int> _keySettingsDefaults = new Dictionary<string, int>()
         {
-            {"EnableWindowedMode", 5}, {"EnablePersistentStereoDesktop", 0}, {"StereoAdjustEnable", 1}, {"StereoDefaultOn", 1}, 
-                {"StereoSeparation", 15}, {"MonitorSize", -1},
+            {"EnableWindowedMode", 5}, {"EnablePersistentStereoDesktop", 0}, {"MonitorSize", -1}, {"StereoAdjustEnable", 1}, 
+                {"StereoDefaultOn", 1}, {"StereoSeparation", 15},  {"StereoVisionConfirmed", 0},
             {"SaveStereoImage", 1136}, {"StereoImageType", 0}, {"SnapShotQuality", 50},
             {"LaserSightEnabled", 1},
         };

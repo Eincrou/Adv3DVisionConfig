@@ -3,12 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewmodel="clr-namespace:Advanced3DVConfig.ViewModel"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="Advanced 3D Vision Configuration v1.1" Height="300" MinHeight="300" Width="350" MinWidth="350" ResizeMode="CanMinimize">
+        Title="Advanced 3D Vision Configuration v1.1" Height="350" MinHeight="350" Width="350" MinWidth="350" ResizeMode="CanMinimize">
     <Window.Resources>
         <viewmodel:HexConverter x:Key="HexConverter" />
         <viewmodel:HexToKeyboardConverter x:Key="HexToKeyboardConverter" />
         <viewmodel:OnOffConverter x:Key="OnOffConverter" />
         <viewmodel:ViewModel x:Key="ViewModel" />
+
+        <LinearGradientBrush x:Key="TabBorderBackgroundBrush"  EndPoint="0.65,1.87" StartPoint="0,0">
+            <GradientStop Color="#FF111216" Offset="0.51"/>
+            <GradientStop Color="#FF131719" Offset="0.527"/>
+        </LinearGradientBrush>
+
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="White"/>
         </Style>
@@ -116,7 +122,7 @@
     <Window.Background>
         <LinearGradientBrush EndPoint="0.8,1.5" StartPoint="0,0">
             <GradientStop Color="#FF080B10" Offset="0.495"/>
-            <GradientStop Color="#FF171C20" Offset="0.515"/>
+            <GradientStop Color="#FF121619" Offset="0.515"/>
         </LinearGradientBrush>
     </Window.Background>
     <Grid DataContext="{StaticResource ViewModel}">
@@ -124,31 +130,93 @@
             <RowDefinition Height="59*"/>
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
-        
+
         <TabControl Background="#FF050608" Margin="5" BorderBrush="#FF55575B">
             <TabItem Header="General" >
-                <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4">
-                    <StackPanel Margin="5" Background="#FF121416">
+                <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4" Background="{StaticResource TabBorderBackgroundBrush}">
+                    <StackPanel Margin="5">
                         <StackPanel Margin="0,5,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="Stereo _Depth:" FontSize="14" Margin="0,0,0,0"
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <Label Content="Stereo _Depth:" Target="{Binding ElementName=StereoDepthIntUpDown}" FontSize="14" Margin="0,0,0,0"
                                        ToolTip="Defines the maximum separation for the left and right views." />
-                                <xctk:IntegerUpDown Minimum="1" Maximum="100" Increment="5"
+                                <xctk:IntegerUpDown Name="StereoDepthIntUpDown" Minimum="1" Maximum="100" Increment="5"
                                                     Value="{Binding StereoSeparation, Mode=TwoWay}"
                                                     ParsingNumberStyle="Integer"
-                                                    ToolTip="Stereo Separation (1-100)" Width="44" Margin="5,0" />
+                                                    ToolTip="Stereo Separation (1-100)" Width="46" Margin="5,0" />
                                 <Slider Value="{Binding StereoSeparation, Mode=TwoWay}" Minimum="1" Maximum="100"
                                         Width="150"
                                         TickFrequency="10" TickPlacement="BottomRight"
                                         ToolTip="Stereo Separation (1-100)" />
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="_Monitor Size:" Target="{Binding ElementName=MonSizeIntUpDown}"
+                                       ToolTip="The size of the main display in inches, multiplied by two." />
+                                <xctk:IntegerUpDown Name="MonSizeIntUpDown" Minimum="1" Maximum="255" Increment="5" Value="{Binding MonitorSize, Mode=TwoWay}"
+                                                    ParsingNumberStyle="Integer" Width="46" Margin="9,0,0,0"
+                                                    ToolTip="Lowering this value allows for more maximum separation."/>
+                                <Slider Value="{Binding MonitorSize, Mode=TwoWay}" Minimum="1" Maximum="255"
+                                        Width="150" Margin="5,0,0,0"
+                                        TickFrequency="20" TickPlacement="BottomRight"
+                                        ToolTip="Monitor Size (1-255)" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="StereoD_efaultOn:" Target="{Binding ElementName=StereoDefaultOnBox}"
+                                       ToolTip="Whether games start in 3D mode when 3D Vision is enabled."/>
+                                <CheckBox Name="StereoDefaultOnBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                                          IsChecked="{Binding StereoDefaultOn, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="StereoVision_Confirmed:" Target="{Binding ElementName=StereoVisionConfirmedBox}"
+                                       ToolTip="Whether the 3D Vision setup wizard has been run."/>
+                                <CheckBox Name="StereoVisionConfirmedBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                                          IsChecked="{Binding StereoVisionConfirmed, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Stereo_AdjustEnabled:" Target="{Binding ElementName=StereoAdjustEnableBox}"
+                                       ToolTip="Whether the hotkeys to adjust depth and convergence can make changes."/>
+                                <CheckBox Name="StereoAdjustEnableBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                                          IsChecked="{Binding StereoAdjustEnable, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Enable_WindowedMode:" Target="{Binding ElementName=EnableWindowedModeBox}"
+                                       ToolTip="Whether 3D Vision can activate 3D mode for windowed applications."/>
+                                <CheckBox Name="EnableWindowedModeBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                                          IsChecked="{Binding EnableWindowedMode, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                                <Label Content="A_lways:" Target="{Binding ElementName=EnablePersistentBox}"
+                                       ToolTip="Whether the display is permanently in 3D mode.&#x0a;(EnableWindowedMode must be true.)"/>
+                                <CheckBox Name="EnablePersistentBox" VerticalAlignment="Center" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5"
+                                          IsChecked="{Binding EnablePersistentStereoDesktop, Mode=TwoWay}" 
+                                          IsEnabled="{Binding ElementName=EnableWindowedModeBox, Path=IsChecked}">
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                            </StackPanel>
+                            
                         </StackPanel>
-                    </StackPanel></Border>
+                    </StackPanel>
+                </Border>
             </TabItem>
 
             <TabItem Header="Screenshots">
-                <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4">
-                    <StackPanel Background="#FF121416" Margin="0,5">
+                <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4" Background="{StaticResource TabBorderBackgroundBrush}">
+                    <StackPanel Margin="0,5">
                         <StackPanel Orientation="Horizontal" Margin="0,3">
                             <Label Content="Take _Screenshot:" FontSize="14" Margin="0,0,5,0"
                                        ToolTip="Saves a stereoscopic screenshot image." />
@@ -177,17 +245,37 @@
                             <Label Content="JPS _Quality:" FontSize="14" Margin="0,0,0,0" />
                             <xctk:IntegerUpDown Name="SnapShotQualityUpDown" Minimum="1" Maximum="100" Increment="5"
                                                     Value="{Binding SnapShotQuality, Mode=TwoWay}"
-                                                    ParsingNumberStyle="Integer" Width="44" Margin="5,0"
+                                                    ParsingNumberStyle="Integer" Width="46" Margin="5,0"
                                                     ToolTip="JPEG image quality (1-100)"
-                                                    IsEnabled="{Binding ElementName=StereImageTypeCombo, Path=SelectedIndex, Mode=OneWay, Converter={StaticResource OnOffConverter},ConverterParameter=invert}" />
+                                                    IsEnabled="{Binding ElementName=StereImageTypeCombo, Path=SelectedIndex, Mode=OneWay, 
+                                                        Converter={StaticResource OnOffConverter},ConverterParameter=invert}" />
                             <Slider Value="{Binding SnapShotQuality}" Minimum="1" Maximum="100" Width="150"
                                         TickFrequency="10" TickPlacement="BottomRight" Margin="10,0,0,0"
                                         ToolTip="JPEG image quality (1-100)"
-                                        IsEnabled="{Binding ElementName=StereImageTypeCombo, Path=SelectedIndex, Mode=OneWay, Converter={StaticResource OnOffConverter},ConverterParameter=invert}" />
+                                        IsEnabled="{Binding ElementName=StereImageTypeCombo, Path=SelectedIndex, Mode=OneWay, 
+                                            Converter={StaticResource OnOffConverter}, ConverterParameter=invert}" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
             </TabItem>
+
+            <TabItem Header="Laser Sight">
+                <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4" Background="{StaticResource TabBorderBackgroundBrush}">
+                    <StackPanel Margin="0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="_LaserSightEnabled:" Target="{Binding ElementName=LaserSightEnabledBox}"
+                                       ToolTip="Whether the 3D laser sight can be enabled with the hotkey or automatically by a 3D Vision game profile."/>
+                            <CheckBox Name="LaserSightEnabledBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                                          IsChecked="{Binding LaserSightEnabled, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
+                                <CheckBox.RenderTransform>
+                                    <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                </CheckBox.RenderTransform>
+                            </CheckBox>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                </TabItem>
+
         </TabControl>
         <StackPanel Grid.Row="1" VerticalAlignment="Center" >
             <Button x:Name="SaveButton" Width="90" Click="SaveButton_OnClick" Padding="1,0,1,1" >_Save Settings</Button>
