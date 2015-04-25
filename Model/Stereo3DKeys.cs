@@ -1,12 +1,10 @@
-﻿#define DEBUG
+﻿//#define DEBUG
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using Microsoft.Win32;
 
 namespace Advanced3DVConfig.Model
@@ -19,12 +17,23 @@ namespace Advanced3DVConfig.Model
         {
             {"EnableWindowedMode", 5}, {"EnablePersistentStereoDesktop", 0}, {"MonitorSize", -1}, {"StereoAdjustEnable", 1}, 
                 {"StereoDefaultOn", 1}, {"StereoSeparation", 15},  {"StereoVisionConfirmed", 0},
-            {"SaveStereoImage", 1136}, {"StereoImageType", 0}, {"SnapShotQuality", 50},
+            {"StereoImageType", 0}, {"SnapShotQuality", 50},
             {"LaserSightEnabled", 1},
+        };
+        private readonly Dictionary<string,int>  _keySettingsHotkeyDefaults = new Dictionary<string, int>()
+        {
+            {"CycleFrustumAdjust", 634}, {"DeleteConfig", 1142}, {"GammaAdjustLess", 1095}, {"GammaAdjustMore", 583}, {"GlassesDelayMinus",1213}, {"GlassesDelayPlus", 1211}, 
+            {"RHWAtScreenLess", 632}, {"RHWAtScreenMore", 633 }, {"RHWLessAtScreenLess", 1144}, {"RHWLessAtScreenMore", 1145}, {"SaveStereoImage", 1136},
+            {"StereoConvergenceAdjustLess",628}, {"StereoConvergenceAdjustMore", 629}, {"StereoSeparationAdjustLess", 626}, {"StereoSeparationAdjustMore", 627}, 
+            {"StereoSuggestSettings", 625}, {"StereoToggle", 596}, {"StereoToggleMode", 1658}, {"StereoUnsuggestSettings", 1137}, {"ToggleAutoConvergence", 631}, 
+            {"ToggleAutoConvergenceRestore", 1143}, {"ToggleLaserSight", 635}, {"ToggleMemo", 3629}, {"WriteConfig", 630},
         };
 
         public Dictionary<string, int> Stereo3DSettings = new Dictionary<string, int>();
         private Dictionary<string, int> _previousStereo3DSettings = new Dictionary<string, int>();
+        public Dictionary<string, int> Stereo3DHotkeySettings = new Dictionary<string, int>();
+        private Dictionary<string, int> _previousStereo3DHotkeySettings = new Dictionary<string, int>();
+
         public Stereo3DKeys() {
             try {
                 GetStereo3DKey();
@@ -35,6 +44,7 @@ namespace Advanced3DVConfig.Model
 
             ReadStereo3DKeys();
             _previousStereo3DSettings = new Dictionary<string, int>(Stereo3DSettings);
+            _previousStereo3DHotkeySettings = new Dictionary<string, int>(Stereo3DHotkeySettings);
         }
 
         private void GetStereo3DKey(){
@@ -56,6 +66,8 @@ namespace Advanced3DVConfig.Model
         private void ReadStereo3DKeys() {
             foreach (var keyName in _keySettingsDefaults.Keys)
                 Stereo3DSettings.Add(keyName, ReadKeyValue(keyName));
+            foreach (var keyNameHotkey in _keySettingsHotkeyDefaults.Keys)
+                Stereo3DHotkeySettings.Add(keyNameHotkey, ReadKeyValue(keyNameHotkey));
         }
 
         private int ReadKeyValue(string keyToRead) {
@@ -63,24 +75,48 @@ namespace Advanced3DVConfig.Model
             if (keyValue == null) return 0;
             return (int)keyValue;
         }
-
+        /// <summary>
+        /// Resets the provided registry key to its default value. (MonitorSize has no default value)
+        /// </summary>
+        /// <param name="keyToReset">The exact name of the registry key to reset to default.</param>
         public void ResetKeyToDefault(string keyToReset) {
-            if (!_keySettingsDefaults.ContainsKey(keyToReset) | _keySettingsDefaults[keyToReset] < 0)
+            if(_keySettingsDefaults.ContainsKey(keyToReset) && _keySettingsDefaults[keyToReset] > 0)
+                Stereo3DSettings[keyToReset] = _keySettingsDefaults[keyToReset];
+            else if (_keySettingsHotkeyDefaults.ContainsKey(keyToReset))
+                Stereo3DHotkeySettings[keyToReset] = _keySettingsHotkeyDefaults[keyToReset];
+            else
                 throw new ArgumentException("There is no known default value for this key.");
-            int defaultValue = _keySettingsDefaults[keyToReset];
-            Stereo3DSettings[keyToReset] = defaultValue;
         }
-
+        /// <summary>
+        /// Saves the current changes to the Windows registry.
+        /// </summary>
+        /// <returns></returns>
         public string SaveSettingsToRegistry() {
             var savedSettings = new StringBuilder();
-            var settingsToSave = from s in Stereo3DSettings
-                                 where s.Value != _previousStereo3DSettings[s.Key]
+
+            var combinedSettingsDictionary = new Dictionary<string, int>(Stereo3DSettings);
+            foreach (var hotkeySetting in Stereo3DHotkeySettings)
+                combinedSettingsDictionary.Add(hotkeySetting.Key, hotkeySetting.Value);
+
+            var combinedPreviousSettingsDictionary = new Dictionary<string, int>(_previousStereo3DSettings);
+            foreach (var prevHotkeySetting in _previousStereo3DHotkeySettings)
+                combinedPreviousSettingsDictionary.Add(prevHotkeySetting.Key, prevHotkeySetting.Value);
+
+            var settingsToSave = from s in combinedSettingsDictionary
+                                 where s.Value != combinedPreviousSettingsDictionary[s.Key]
                                  select s;
-            foreach (var setting in settingsToSave) {
-                _stereo3DKey.SetValue(setting.Key, setting.Value);
-                savedSettings.Append(String.Format("{0}: {1}", setting.Key, setting.Value) + Environment.NewLine);
+            if (settingsToSave.Any())
+            {
+                foreach (var setting in settingsToSave)
+                {
+                    _stereo3DKey.SetValue(setting.Key, setting.Value);
+                    savedSettings.Append(String.Format("{0}: {1}", setting.Key, setting.Value) + Environment.NewLine);
+                }
+                _previousStereo3DSettings = new Dictionary<string, int>(Stereo3DSettings);
+                _previousStereo3DHotkeySettings = new Dictionary<string, int>(Stereo3DHotkeySettings);
             }
-            _previousStereo3DSettings = new Dictionary<string, int>(Stereo3DSettings);
+            else 
+                savedSettings.Append("No settings have been changed, so nothing was saved.");
 #if DEBUG
             DebugWriteAllStereo3DKeys();
 #endif

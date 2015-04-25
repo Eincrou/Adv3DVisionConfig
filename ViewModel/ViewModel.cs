@@ -58,8 +58,8 @@ namespace Advanced3DVConfig.ViewModel
 
         #region Screenshots
         public int SaveStereoImage{
-            get { return _s3DKeys.Stereo3DSettings["SaveStereoImage"]; }
-            set { _s3DKeys.Stereo3DSettings["SaveStereoImage"] = value; }
+            get { return _s3DKeys.Stereo3DHotkeySettings["SaveStereoImage"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["SaveStereoImage"] = value; }
         }
         public int StereoImageType{
             get { return _s3DKeys.Stereo3DSettings["StereoImageType"]; }
