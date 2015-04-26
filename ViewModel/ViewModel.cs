@@ -33,6 +33,34 @@ namespace Advanced3DVConfig.ViewModel
                 }
             }
         }
+        public int StereoSeparation{
+            get { return _s3DKeys.Stereo3DSettings["StereoSeparation"]; }
+            set { _s3DKeys.Stereo3DSettings["StereoSeparation"] = value; }
+        }
+        public int StereoToggle {
+            get { return _s3DKeys.Stereo3DHotkeySettings["StereoToggle"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["StereoToggle"] = value; }
+        }
+        public int StereoSeparationAdjustMore {
+            get { return _s3DKeys.Stereo3DHotkeySettings["StereoSeparationAdjustMore"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["StereoSeparationAdjustMore"] = value; }
+        }
+        public int StereoSeparationAdjustLess {
+            get { return _s3DKeys.Stereo3DHotkeySettings["StereoSeparationAdjustLess"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["StereoSeparationAdjustLess"] = value; }
+        }
+        public int StereoConvergenceAdjustMore {
+            get { return _s3DKeys.Stereo3DHotkeySettings["StereoConvergenceAdjustMore"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["StereoConvergenceAdjustMore"] = value; }
+        }
+        public int StereoConvergenceAdjustLess {
+            get { return _s3DKeys.Stereo3DHotkeySettings["StereoConvergenceAdjustLess"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["StereoConvergenceAdjustLess"] = value; }
+        }
+
+        #endregion
+
+        #region Advanced
         public int MonitorSize {
             get { return _s3DKeys.Stereo3DSettings["MonitorSize"]; }
             set { _s3DKeys.Stereo3DSettings["MonitorSize"] = value; }
@@ -45,16 +73,11 @@ namespace Advanced3DVConfig.ViewModel
             get { return _s3DKeys.Stereo3DSettings["StereoDefaultOn"]; }
             set { _s3DKeys.Stereo3DSettings["StereoDefaultOn"] = value; }
         }
-        public int StereoSeparation{
-            get { return _s3DKeys.Stereo3DSettings["StereoSeparation"]; }
-            set { _s3DKeys.Stereo3DSettings["StereoSeparation"] = value; }
-        }
         public int StereoVisionConfirmed {
             get { return _s3DKeys.Stereo3DSettings["StereoVisionConfirmed"]; }
             set { _s3DKeys.Stereo3DSettings["StereoVisionConfirmed"] = value; }
         }
         #endregion
-
 
         #region Screenshots
         public int SaveStereoImage{
@@ -70,10 +93,20 @@ namespace Advanced3DVConfig.ViewModel
             set { _s3DKeys.Stereo3DSettings["SnapShotQuality"] = value; }
         }
         #endregion
-        public int LaserSightEnabled {
+
+        #region Laser Sight
+        public int LaserSightEnabled
+        {
             get { return _s3DKeys.Stereo3DSettings["LaserSightEnabled"]; }
             set { _s3DKeys.Stereo3DSettings["LaserSightEnabled"] = value; }
         }
+        public int ToggleLaserSight
+        {
+            get { return _s3DKeys.Stereo3DHotkeySettings["ToggleLaserSight"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["ToggleLaserSight"] = value; }
+        }
+        #endregion
+
 
 
 
@@ -85,7 +118,6 @@ namespace Advanced3DVConfig.ViewModel
             }
             catch (Exception exception)
             {
-
                 MessageBox.Show(exception.Message, "Registry Error");
             }
         }

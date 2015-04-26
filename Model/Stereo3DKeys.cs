@@ -23,8 +23,8 @@ namespace Advanced3DVConfig.Model
         private readonly Dictionary<string,int>  _keySettingsHotkeyDefaults = new Dictionary<string, int>()
         {
             {"CycleFrustumAdjust", 634}, {"DeleteConfig", 1142}, {"GammaAdjustLess", 1095}, {"GammaAdjustMore", 583}, {"GlassesDelayMinus",1213}, {"GlassesDelayPlus", 1211}, 
-            {"RHWAtScreenLess", 632}, {"RHWAtScreenMore", 633 }, {"RHWLessAtScreenLess", 1144}, {"RHWLessAtScreenMore", 1145}, {"SaveStereoImage", 1136},
-            {"StereoConvergenceAdjustLess",628}, {"StereoConvergenceAdjustMore", 629}, {"StereoSeparationAdjustLess", 626}, {"StereoSeparationAdjustMore", 627}, 
+            {"RHWAtScreenLess", 632}, {"RHWAtScreenMore", 633}, {"RHWLessAtScreenLess", 1144}, {"RHWLessAtScreenMore", 1145}, {"SaveStereoImage", 1136},
+            {"StereoConvergenceAdjustLess", 628}, {"StereoConvergenceAdjustMore", 629}, {"StereoSeparationAdjustLess", 626}, {"StereoSeparationAdjustMore", 627}, 
             {"StereoSuggestSettings", 625}, {"StereoToggle", 596}, {"StereoToggleMode", 1658}, {"StereoUnsuggestSettings", 1137}, {"ToggleAutoConvergence", 631}, 
             {"ToggleAutoConvergenceRestore", 1143}, {"ToggleLaserSight", 635}, {"ToggleMemo", 3629}, {"WriteConfig", 630},
         };
