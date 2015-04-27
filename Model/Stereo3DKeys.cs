@@ -80,7 +80,7 @@ namespace Advanced3DVConfig.Model
         /// </summary>
         /// <param name="keyToReset">The exact name of the registry key to reset to default.</param>
         public void ResetKeyToDefault(string keyToReset) {
-            if(_keySettingsDefaults.ContainsKey(keyToReset) && _keySettingsDefaults[keyToReset] > 0)
+            if(_keySettingsDefaults.ContainsKey(keyToReset) && _keySettingsDefaults[keyToReset] >= 0)
                 Stereo3DSettings[keyToReset] = _keySettingsDefaults[keyToReset];
             else if (_keySettingsHotkeyDefaults.ContainsKey(keyToReset))
                 Stereo3DHotkeySettings[keyToReset] = _keySettingsHotkeyDefaults[keyToReset];
@@ -94,13 +94,8 @@ namespace Advanced3DVConfig.Model
         public string SaveSettingsToRegistry() {
             var savedSettings = new StringBuilder();
 
-            var combinedSettingsDictionary = new Dictionary<string, int>(Stereo3DSettings);
-            foreach (var hotkeySetting in Stereo3DHotkeySettings)
-                combinedSettingsDictionary.Add(hotkeySetting.Key, hotkeySetting.Value);
-
-            var combinedPreviousSettingsDictionary = new Dictionary<string, int>(_previousStereo3DSettings);
-            foreach (var prevHotkeySetting in _previousStereo3DHotkeySettings)
-                combinedPreviousSettingsDictionary.Add(prevHotkeySetting.Key, prevHotkeySetting.Value);
+            var combinedSettingsDictionary = CombineSettingsDictionaries();
+            var combinedPreviousSettingsDictionary = CombinePreviousSettingsDictionaries();
 
             var settingsToSave = from s in combinedSettingsDictionary
                                  where s.Value != combinedPreviousSettingsDictionary[s.Key]
@@ -123,22 +118,56 @@ namespace Advanced3DVConfig.Model
             return savedSettings.ToString();
         }
 
+        public void SaveSettingsToFile(string filename)
+        {
+            var combinedSettingsDictionary = CombineSettingsDictionaries();
+
+            var keysToWrite = new string[combinedSettingsDictionary.Count];
+            for (int i = 0; i < keysToWrite.Length; i++)
+                keysToWrite[i] = String.Format("{0} - {1}", combinedSettingsDictionary.Keys.ElementAt(i),
+                    combinedSettingsDictionary.Values.ElementAt(i));
+            File.WriteAllLines(filename, keysToWrite);
+        }
+
+        private Dictionary<string, int> CombineSettingsDictionaries()
+        {
+            var combinedSettingsDictionary = new Dictionary<string, int>(Stereo3DSettings);
+            foreach (var hotkeySetting in Stereo3DHotkeySettings)
+                combinedSettingsDictionary.Add(hotkeySetting.Key, hotkeySetting.Value);
+            return combinedSettingsDictionary;
+        }
+
+        private Dictionary<string, int> CombinePreviousSettingsDictionaries()
+        {
+            var combinedPreviousSettingsDictionary = new Dictionary<string, int>(_previousStereo3DSettings);
+            foreach (var prevHotkeySetting in _previousStereo3DHotkeySettings)
+                combinedPreviousSettingsDictionary.Add(prevHotkeySetting.Key, prevHotkeySetting.Value);
+            return combinedPreviousSettingsDictionary;
+        }
+
         private void DebugWriteAllStereo3DKeys ()
         {
             string keysfilename = String.Format(@"C:\Stereo3DKeys {0:h-mm-ss}.txt", DateTime.Now);
-            var allValueNames = _stereo3DKey.GetValueNames();
-            var allValues = new Dictionary<string, string>();
-            foreach (var valueName in allValueNames) {
-                var value = _stereo3DKey.GetValue(valueName);
-                if (value != null)
-                    allValues.Add(valueName, value.ToString());
-            }
+            var allValues = GetAllStereo3DValues();
             var keysToWrite = new string[allValues.Count];
             for (int i = 0; i < keysToWrite.Length; i++) {
                 keysToWrite[i] = String.Format("{0}: {1}", allValues.Keys.ElementAt(i),
                     allValues.Values.ElementAt(i));
             }
             File.WriteAllLines(keysfilename, keysToWrite);
+        }
+
+        private Dictionary<string, int> GetAllStereo3DValues()
+        {
+            var allValueNames = _stereo3DKey.GetValueNames();
+            var allValues = new Dictionary<string, int>();
+            foreach (var valueName in allValueNames)
+            {
+                var value = _stereo3DKey.GetValue(valueName);
+                if (value != null)
+                    allValues.Add(valueName, (int)value);
+            }
+            return allValues;
         }
     }
 }

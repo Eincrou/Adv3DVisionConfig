@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewmodel="clr-namespace:Advanced3DVConfig.ViewModel"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="Advanced 3D Vision Configuration v1.2" Height="350" MinHeight="350" Width="400" MinWidth="350" ResizeMode="CanMinimize">
+        Title="Advanced 3D Vision Configuration v1.2" Height="370" MinHeight="365" Width="400" MinWidth="400" ResizeMode="CanMinimize">
     <Window.Resources>
         <viewmodel:HexConverter x:Key="HexConverter" />
         <viewmodel:HexToKeyboardConverter x:Key="HexToKeyboardConverter" />
@@ -18,172 +18,242 @@
     </Window.Background>
     <Grid DataContext="{StaticResource ViewModel}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="59*"/>
-            <RowDefinition Height="9*"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <TabControl Background="#FF050608" Margin="5" BorderBrush="#FF55575B">
+        <TabControl Background="#FF050608" Margin="5,5,5,0" BorderBrush="#FF55575B">
             <TabItem Header="General">
                 <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4" Background="{StaticResource TabBorderBackgroundBrush}">
                     <StackPanel Margin="5">
-                        <StackPanel Margin="0,5,0,0">
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                <Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Stretch="Fill" Width="18" ToolTip="Reset to default."/>
-                                <Label Content="Stereo _Depth:" Target="{Binding ElementName=StereoDepthIntUpDown}" FontSize="14" Margin="0,0,0,0"
-                                       ToolTip="Defines the maximum separation for the left and right views." />
-                                <xctk:IntegerUpDown x:Name="StereoDepthIntUpDown" Minimum="1" Maximum="100" Increment="5"
-                                                    Value="{Binding StereoSeparation, Mode=TwoWay}"
-                                                    ParsingNumberStyle="Integer"
-                                                    ToolTip="Stereo Separation (1-100)" Width="46" Margin="15,0,5,0" />
-                                <Slider Value="{Binding ElementName=StereoDepthIntUpDown, Path=Value, Mode=TwoWay}" Minimum="1" Maximum="100"
-                                        Width="150"
-                                        TickFrequency="10" TickPlacement="BottomRight"
-                                        ToolTip="Stereo Separation (1-100)" />
-                            </StackPanel>                            
+                        <StackPanel x:Name="StereoSeparationPanel" Orientation="Horizontal" Margin="0,0,0,5">
+                            <Button Content="StereoSeparation" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset StereoSeparation to default value" />
+                            <Label Content="Stereo _Depth:" Target="{Binding ElementName=StereoDepthIntUpDown}" Margin="0,0,0,0"
+                    			ToolTip="Defines the maximum separation for the left and right views." />
+                            <xctk:IntegerUpDown x:Name="StereoDepthIntUpDown" Minimum="1" Maximum="100" Increment="5"
+                    			Value="{Binding StereoSeparation, Mode=TwoWay}"
+                    			ParsingNumberStyle="Integer"
+                    			ToolTip="Stereo Separation (1-100)" Width="46" Margin="15,0,5,0" VerticalAlignment="Center" />
+                            <Slider Value="{Binding Value, ElementName=StereoDepthIntUpDown, Mode=TwoWay}" Minimum="1" Maximum="100"
+                    			Width="150"
+                    			TickFrequency="10" TickPlacement="BottomRight"
+                    			ToolTip="Stereo Separation (1-100)" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,3,-10,3">
-                        	<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-                        	<Label Content="Toggle _3D:" FontSize="14" Margin="0,0,35,0"
-                        		ToolTip="Turns 3D on and off in-game." Target="{Binding ElementName=Toggle3DBox, Mode=OneWay}" />
-                        	<TextBox x:Name="Toggle3DBox"
-                        		Text="{Binding StereoToggle, Converter={StaticResource HexConverter}}"
-                        		Width="40"
-                        		MaxLength="4" Margin="0,0,10,0" />
-                        	<TextBlock FontSize="12"
-                        		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=Toggle3DBox}"
-                        		VerticalAlignment="Center" />
+                        <StackPanel x:Name="StereoTogglePanel" Orientation="Horizontal" Margin="0,3,-10,3">
+                            <Button Content="StereoToggle" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset StereoToggle to default value"/>
+                            <Label Content="Toggle _3D:" FontSize="14" Margin="0,0,35,0"
+                    			ToolTip="Turns 3D on and off in-game." Target="{Binding ElementName=Toggle3DBox, Mode=OneWay}" VerticalAlignment="Center" />
+                            <TextBox x:Name="Toggle3DBox"
+                    			Text="{Binding StereoToggle, Converter={StaticResource HexConverter}}"
+                    			Width="40"
+                    			MaxLength="4" Margin="0,0,10,0" />
+                            <TextBlock FontSize="12"
+                    			Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=Toggle3DBox}"
+                    			VerticalAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,3,0,3">
-                        	<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-                        	<Label Content="Separation- :" FontSize="14" Margin="0,0,23,0"
+                        <StackPanel x:Name="SeparationLessPanel" Orientation="Horizontal" Margin="0,3,0,3">
+                            <Button Content="StereoSeparationAdjustLess" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset StereoSeparationAdjustLess to default value"/>
+                            <Label Content="Separation- :" FontSize="14" Margin="0,0,23,0"
                         		ToolTip="Decreases maximum depth of the 3D scene" Target="{Binding ElementName=DepthLessBox, Mode=OneWay}" />
-                        	<TextBox x:Name="DepthLessBox"
+                            <TextBox x:Name="DepthLessBox"
                         		Text="{Binding StereoSeparationAdjustLess, Converter={StaticResource HexConverter}}"
                         		Width="40"
                         		MaxLength="4" FontSize="14" Margin="0,0,10,0" />
-                        	<TextBlock FontSize="12"
+                            <TextBlock FontSize="12"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=DepthLessBox}"
                         		VerticalAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,3,0,3">
-                        	<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-                        	<Label Content="Separation+ :" FontSize="14" Margin="0,0,19,0"
+                        <StackPanel x:Name="SeparationMorePanel" Orientation="Horizontal" Margin="0,3,0,3">
+                            <Button Content="StereoSeparationAdjustMore" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset StereoSeparationAdjustMore to default value"/>
+                            <Label Content="Separation+ :" FontSize="14" Margin="0,0,19,0"
                         		ToolTip="Increases maximum depth of the 3D scene" Target="{Binding ElementName=DepthMoreBox, Mode=OneWay}" />
-                        	<TextBox x:Name="DepthMoreBox"
+                            <TextBox x:Name="DepthMoreBox"
                         		Text="{Binding StereoSeparationAdjustMore, Converter={StaticResource HexConverter}}"
                         		Width="40"
                         		MaxLength="4" FontSize="14" Margin="0,0,10,0" />
-                        	<TextBlock FontSize="12"
+                            <TextBlock FontSize="12"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=DepthMoreBox}"
                         		VerticalAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,3,-10,3">
-                        	<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-                        	<Label Content="Convergence- :" FontSize="14" Margin="0,0,9,0"
+                        <StackPanel x:Name="ConvergenceLessPanel" Orientation="Horizontal" Margin="0,3,-10,3">
+                            <Button Content="StereoConvergenceAdjustLess" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset StereoConvergenceAdjustLess to default value"/>
+                            <Label Content="Convergence- :" FontSize="14" Margin="0,0,9,0"
                         		ToolTip="Makes objects appear further away." Target="{Binding ElementName=ConvergLessBox, Mode=OneWay}" />
-                        	<TextBox x:Name="ConvergLessBox"
+                            <TextBox x:Name="ConvergLessBox"
                         		Text="{Binding StereoConvergenceAdjustLess, Converter={StaticResource HexConverter}}"
                         		Width="40"
                         		MaxLength="4" FontSize="14" Margin="0,0,10,0" />
-                        	<TextBlock FontSize="12"
+                            <TextBlock FontSize="12"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=ConvergLessBox}"
                         		VerticalAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,3,-10,3">
-                        	<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-                        	<Label Content="Convergence+ :" FontSize="14" Margin="0,0,5,0"
+                        <StackPanel x:Name="ConvergenceMorePanel" Orientation="Horizontal" Margin="0,3,-10,3">
+                            <Button Content="StereoConvergenceAdjustMore" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset StereoConvergenceAdjustMore to default value"/>
+                            <Label Content="Convergence+ :" FontSize="14" Margin="0,0,5,0"
                         		ToolTip="Makes objects appear closer." Target="{Binding ElementName=ConvergMoreBox, Mode=OneWay}" />
-                        	<TextBox x:Name="ConvergMoreBox"
+                            <TextBox x:Name="ConvergMoreBox"
                         		Text="{Binding StereoConvergenceAdjustMore, Converter={StaticResource HexConverter}}"
                         		Width="40"
                         		MaxLength="4" FontSize="14" Margin="0,0,10,0" />
-                        	<TextBlock FontSize="12"
+                            <TextBlock FontSize="12"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=ConvergMoreBox}"
                         		VerticalAlignment="Center" />
                         </StackPanel>
+                        <StackPanel x:Name="StereoToggleModePanel" Orientation="Horizontal" Margin="0,3,-10,3">
+                            <Button Content="StereoToggleMode" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset StereoToggleMode to default value" />
+                            <Label Content="Toggle 3D compat. mode:"
+                        		ToolTip="Toggle between 3D Vision mode and 3D compatibility mode" Target="{Binding ElementName=StereoToggleModeBox, Mode=OneWay}" VerticalAlignment="Center" />
+                            <TextBox x:Name="StereoToggleModeBox"
+                        		Text="{Binding StereoToggleMode, Converter={StaticResource HexConverter}}"
+                        		Width="40"
+                        		MaxLength="4" Margin="5,0,10,0" />
+                            <TextBlock FontSize="12"
+                        		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=StereoToggleModeBox}"
+                        		VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock x:Name="ModifiersRefBlock" Text="Click here for key combinations guide."
+                        	Foreground="#FF8CDC00"
+                        	Cursor="Hand" MouseLeftButtonDown="ModifiersRefBlock_OnMouseLeftButtonDown"
+                        	ToolTip="http://3dvision-blog.com/3053-modifying-all-3d-vision-control-key-combinations-as-you-need/" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" />
                     </StackPanel>
                 </Border>
             </TabItem>
             <TabItem Header="Advanced" Margin="0">
-            	<Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4" Background="{StaticResource TabBorderBackgroundBrush}">
-            		<StackPanel Margin="5">
-            			<StackPanel Margin="0,5,0,0">
-            				<StackPanel Orientation="Horizontal">
-            					<Label Content="_Monitor Size:" Target="{Binding ElementName=MonSizeIntUpDown}"
+                <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4" Background="{StaticResource TabBorderBackgroundBrush}">
+                    <StackPanel Margin="5">
+                        <StackPanel Margin="0,5,0,0">
+                            <StackPanel x:Name="MonitorSizePanel" Orientation="Horizontal">
+                                <Button Content="MonitorSize" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" IsEnabled="False"
+								ToolTip="MonitorSize default value varies, but the NVIDIA drivers automatically reset it to default when a game is launched"/>
+                                <Label Content="_Monitor Size:" Target="{Binding ElementName=MonSizeIntUpDown}"
             						ToolTip="The size of the main display in inches, multiplied by two." />
-            					<xctk:IntegerUpDown x:Name="MonSizeIntUpDown" Minimum="1" Maximum="255" Increment="5" Value="{Binding MonitorSize, Mode=TwoWay}"
+                                <xctk:IntegerUpDown x:Name="MonSizeIntUpDown" Minimum="1" Maximum="255" Increment="5" Value="{Binding MonitorSize, Mode=TwoWay}"
             						ParsingNumberStyle="Integer" Width="46" Margin="9,0,0,0"
-            						ToolTip="Lowering this value allows for more maximum separation."/>
+            						ToolTip="Lowering this value allows for more maximum separation." VerticalAlignment="Center"/>
                                 <Slider Value="{Binding ElementName=MonSizeIntUpDown, Path=Value}" Minimum="1" Maximum="255"
             						Width="150" Margin="5,0,0,0"
             						TickFrequency="20" TickPlacement="BottomRight"
             						ToolTip="Monitor Size (1-255)" />
-            				</StackPanel>
-            				<StackPanel Orientation="Horizontal">
-            					<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-            					<Label Content="StereoD_efaultOn:" Target="{Binding ElementName=StereoDefaultOnBox}"
+                            </StackPanel>
+                            <StackPanel x:Name="StereoDefaultOnPanel" Orientation="Horizontal">
+                                <Button Content="StereoDefaultOn" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                        ToolTip="Reset StereoDefaultOn to default value"/>
+                                <Label Content="3D enabled on game launch:" Target="{Binding ElementName=StereoDefaultOnBox}"
             						ToolTip="Whether games start in 3D mode when 3D Vision is enabled."/>
-            					<CheckBox x:Name="StereoDefaultOnBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                                <CheckBox x:Name="StereoDefaultOnBox" VerticalAlignment="Center" Margin="5,0,0,0"
             						IsChecked="{Binding StereoDefaultOn, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
-            						<CheckBox.RenderTransform>
-            							<ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
-            						</CheckBox.RenderTransform>
-            					</CheckBox>
-            				</StackPanel>
-            				<StackPanel Orientation="Horizontal">
-            					<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-            					<Label Content="StereoVision_Confirmed:" Target="{Binding ElementName=StereoVisionConfirmedBox}"
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel x:Name="StereoVisionConfirmedPanel" Orientation="Horizontal">
+                                <Button Content="StereoVisionConfirmed" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                        ToolTip="Reset StereoVisionConfirmed to default value"/>
+                                <Label Content="3D Vision setup completed:" Target="{Binding ElementName=StereoVisionConfirmedBox}"
             						ToolTip="Whether the 3D Vision setup wizard has been run."/>
-            					<CheckBox x:Name="StereoVisionConfirmedBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                                <CheckBox x:Name="StereoVisionConfirmedBox" VerticalAlignment="Center" Margin="12,0,0,0"
             						IsChecked="{Binding StereoVisionConfirmed, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
-            						<CheckBox.RenderTransform>
-            							<ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
-            						</CheckBox.RenderTransform>
-            					</CheckBox>
-            				</StackPanel>
-            				<StackPanel Orientation="Horizontal">
-            					<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-            					<Label Content="Stereo_AdjustEnabled:" Target="{Binding ElementName=StereoAdjustEnableBox}"
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel x:Name="StereoAdjustEnablePanel" Orientation="Horizontal">
+                                <Button Content="StereoAdjustEnable" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                        ToolTip="Reset StereoAdjustEnable to default value"/>
+                                <Label Content="3D adjustment hotkeys enabled:" Target="{Binding ElementName=StereoAdjustEnableBox}"
             						ToolTip="Whether the hotkeys to adjust depth and convergence can make changes."/>
-            					<CheckBox x:Name="StereoAdjustEnableBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                                <CheckBox x:Name="StereoAdjustEnableBox" VerticalAlignment="Center" Margin="5,0,0,0"
             						IsChecked="{Binding StereoAdjustEnable, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
-            						<CheckBox.RenderTransform>
-            							<ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
-            						</CheckBox.RenderTransform>
-            					</CheckBox>
-            				</StackPanel>
-            				<StackPanel Orientation="Horizontal">
-            					<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-            					<Label Content="Enable_WindowedMode:" Target="{Binding ElementName=EnableWindowedModeBox}"
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel x:Name="EnableWindowedModePanel" Orientation="Horizontal">
+                                <Button Content="EnableWindowedMode" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                        ToolTip="Reset EnableWindowedMode to default value"/>
+                                <Label Content="3D windowed mode enabled:" Target="{Binding ElementName=EnableWindowedModeBox}"
             						ToolTip="Whether 3D Vision can activate 3D mode for windowed applications."/>
-            					<CheckBox x:Name="EnableWindowedModeBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                                <CheckBox x:Name="EnableWindowedModeBox" VerticalAlignment="Center" Margin="5,0,0,0"
             						IsChecked="{Binding EnableWindowedMode, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
-            						<CheckBox.RenderTransform>
-            							<ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
-            						</CheckBox.RenderTransform>
-            					</CheckBox>
-            					<Label Content="A_lways:" Target="{Binding ElementName=EnablePersistentBox}"
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel x:Name="PersistentDesktopPanel" Orientation="Horizontal" Margin="20,0,0,0">
+                                <Button Content="EnablePersistentStereoDesktop" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                        ToolTip="Reset EnablePersistentStereoDesktop to default value"/>
+                                <Label Content="3D mode always enabled:" Target="{Binding ElementName=EnablePersistentBox}"
             						ToolTip="Whether the display is permanently in 3D mode.&#xA;(EnableWindowedMode must be true.)"/>
-            					<CheckBox x:Name="EnablePersistentBox" VerticalAlignment="Center" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5"
+                                <CheckBox x:Name="EnablePersistentBox" VerticalAlignment="Center" Margin="8,0,0,0" RenderTransformOrigin="0.5,0.5"
             						IsChecked="{Binding EnablePersistentStereoDesktop, Mode=TwoWay}" 
             						IsEnabled="{Binding IsChecked, ElementName=EnableWindowedModeBox}">
-            						<CheckBox.RenderTransform>
-            							<ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
-            						</CheckBox.RenderTransform>
-            					</CheckBox>
-            				</StackPanel>
-                            
-            			</StackPanel>
-            		</StackPanel>
-            	</Border>
+                                    <CheckBox.RenderTransform>
+                                        <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                    </CheckBox.RenderTransform>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel x:Name="ToggleMemoPanel" Orientation="Horizontal" Margin="0,3,-10,3">
+                                <Button Content="ToggleMemo" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                        ToolTip="Reset ToggleMemo to default value"/>
+                                <Label Content="Toggle compat. info:" Target="{Binding ElementName=ToggleMemoBox, Mode=OneWay}" VerticalAlignment="Center"
+                        			ToolTip="Stereoscopic compatibility information and recommended in-game settings." />
+                                <TextBox x:Name="ToggleMemoBox"
+                        			Text="{Binding ToggleMemo, Converter={StaticResource HexConverter}}"
+                        			Width="40"
+                        			MaxLength="4" Margin="5,0,10,0" />
+                                <TextBlock FontSize="12"
+                        			Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=ToggleMemoBox}"
+                        			VerticalAlignment="Center" />
+                            </StackPanel>
+                            <StackPanel x:Name="WriteConfigPanel" Orientation="Horizontal" Margin="0,3,-10,3">
+                                <Button Content="WriteConfig" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                        ToolTip="Reset WriteConfig to default value"/>
+                                <Label Content="Save in-game changes:" Target="{Binding ElementName=WriteConfigBox, Mode=OneWay}" VerticalAlignment="Center"
+                        			ToolTip="Saves changes made to advanced in-game settings (eg, convergence &amp; fustrum adjustment)."  />
+                                <TextBox x:Name="WriteConfigBox"
+                        			Text="{Binding WriteConfig, Converter={StaticResource HexConverter}}"
+                        			Width="40"
+                        			MaxLength="4" Margin="5,0,10,0" />
+                                <TextBlock FontSize="12"
+                        			Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=WriteConfigBox}"
+                        			VerticalAlignment="Center" />
+                            </StackPanel>
+                            <StackPanel x:Name="CycleFrustumAdjustPanel" Orientation="Horizontal" Margin="0,3,-10,3">
+                                <Button Content="CycleFrustumAdjust" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                        ToolTip="Reset CycleFrustumAdjust to default value"/>
+                                <Label Content="Cycle fustrum adjustments:"	ToolTip="Cycle through three different fustrum adjustments." 
+								Target="{Binding ElementName=CycleFrustumAdjustBox, Mode=OneWay}" VerticalAlignment="Center" />
+                                <TextBox x:Name="CycleFrustumAdjustBox"
+									Text="{Binding CycleFrustumAdjust, Converter={StaticResource HexConverter}}"
+									Width="40"
+									MaxLength="4" Margin="5,0,10,0" />
+                                <TextBlock FontSize="12"
+									Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=CycleFrustumAdjustBox}"
+									VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
             </TabItem>
 
             <TabItem Header="Screenshots">
                 <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4" Background="{StaticResource TabBorderBackgroundBrush}">
                     <StackPanel Margin="5">
-                        <StackPanel Orientation="Horizontal" Margin="0,3">
-                            <Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-                            <Label Content="Stereo_ImageType: " FontSize="14" Margin="0,0,5,0" 
+                        <StackPanel x:Name="StereoImageTypePanel" Orientation="Horizontal" Margin="0,3">
+                            <Button Content="StereoImageType" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset StereoImageType to default value"/>
+                            <Label Content="Stereo_ImageType:" Margin="0,0,5,0" 
                                    ToolTip="Format for stereoscopic screenshot images. (JPEG or PNG)&#xA;Maximum number of images per application before overwrite: JPS 99, PNS 999"/>
                             <ComboBox x:Name="StereImageTypeCombo" SelectedIndex="{Binding StereoImageType, Mode=TwoWay}"
                                       
@@ -194,36 +264,34 @@
                             <TextBlock x:Name="OpenImagesDirBlock" Text="Open directory" FontSize="12" Foreground="YellowGreen"
                                        VerticalAlignment="Center"  Margin="30,0,0,0" Cursor="Hand" MouseLeftButtonDown="OpenImagesDirBlock_OnMouseLeftButtonDown"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
-                            <Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
+                        <StackPanel x:Name="SnapShotQualityPanel" Orientation="Horizontal" Margin="0,0,0,3">
+                            <Button Content="SnapShotQuality" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset SnapShotQuality to default value"/>
                             <Label Content="JPS _Quality:" FontSize="14" Margin="0,0,0,0" 
                                    ToolTip="Determines image quality and file size."/>
                             <xctk:IntegerUpDown x:Name="SnapShotQualityUpDown" Minimum="1" Maximum="100" Increment="5"
                                                     Value="{Binding SnapShotQuality, Mode=TwoWay}"
                                                     ParsingNumberStyle="Integer" Width="46" Margin="5,0"
                                                     ToolTip="JPEG image quality (1-100)"
-                                                    IsEnabled="{Binding SelectedIndex, ConverterParameter=invert, Converter={StaticResource OnOffConverter}, ElementName=StereImageTypeCombo, Mode=OneWay}" />
+                                                    IsEnabled="{Binding SelectedIndex, ConverterParameter=invert, Converter={StaticResource OnOffConverter}, ElementName=StereImageTypeCombo, Mode=OneWay}" VerticalAlignment="Center" />
                             <Slider Value="{Binding ElementName=SnapShotQualityUpDown, Path=Value}" Minimum="1" Maximum="100" Width="150"
                                         TickFrequency="10" TickPlacement="BottomRight" Margin="10,0,0,0"
                                         ToolTip="JPEG image quality (1-100)"
                                         IsEnabled="{Binding SelectedIndex, ConverterParameter=invert, Converter={StaticResource OnOffConverter}, ElementName=StereImageTypeCombo, Mode=OneWay}" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,3">
-                        	<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-                        	<Label Content="Take _Screenshot:" FontSize="14" Margin="0,0,5,0"
+                        <StackPanel x:Name="SaveStereoImagePanel" Orientation="Horizontal" Margin="0,3">
+                            <Button Content="SaveStereoImage" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset SaveStereoImage to default value"/>
+                            <Label Content="Take _Screenshot:" FontSize="14" Margin="0,0,5,0"
                         		ToolTip="Saves a stereoscopic screenshot image." />
-                        	<TextBox x:Name="SaveStereoImageBox"
+                            <TextBox x:Name="SaveStereoImageBox"
                         		Text="{Binding SaveStereoImage, Converter={StaticResource HexConverter}}"
                         		Width="40"
                         		MaxLength="4" FontSize="14" Margin="0,0,10,0" />
-                        	<TextBlock FontSize="12"
+                            <TextBlock FontSize="12"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=SaveStereoImageBox}"
                         		VerticalAlignment="Center" />
                         </StackPanel>
-                        <TextBlock x:Name="ModifiersRefBlock" Text="Click here for key combinations guide."
-                                       Margin="0,0,0,5" Foreground="#FF8CDC00"
-                                       Cursor="Hand" MouseLeftButtonDown="ModifiersRefBlock_OnMouseLeftButtonDown"
-                                       ToolTip="http://3dvision-blog.com/3053-modifying-all-3d-vision-control-key-combinations-as-you-need/" />
                     </StackPanel>
                 </Border>
             </TabItem>
@@ -231,8 +299,9 @@
             <TabItem Header="Laser Sight">
                 <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4" Background="{StaticResource TabBorderBackgroundBrush}">
                     <StackPanel Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
+                        <StackPanel x:Name="LaserSightEnabledPanel" Orientation="Horizontal">
+                            <Button Content="LaserSightEnabled" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset LaserSightEnabled to default value"/>
                             <Label Content="LaserSight_Enabled:" Target="{Binding ElementName=LaserSightEnabledBox}"
                                        ToolTip="Whether the 3D laser sight can be enabled with the hotkey or automatically by a 3D Vision game profile."/>
                             <CheckBox x:Name="LaserSightEnabledBox" VerticalAlignment="Center" Margin="5,0,0,0"
@@ -242,25 +311,26 @@
                                 </CheckBox.RenderTransform>
                             </CheckBox>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,3">
-                        	<Image Height="18" Source="pack://siteoforigin:,,,/Resources/1429989935_sync-01 green.png" Width="18" Margin="0,0,0,0"/>
-                        	<Label Content="Toggle Laser Sight:" FontSize="14" Margin="0,0,5,0"
+                        <StackPanel x:Name="ToggleLaserSightPanel" Orientation="Horizontal" Margin="0,3">
+                            <Button Content="ToggleLaserSight" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
+                                    ToolTip="Reset ToggleLaserSight to default value"/>
+                            <Label Content="Toggle Laser Sight:" FontSize="14" Margin="0,0,5,0"
                         		ToolTip="Enables or disables the stereoscopic laser sight in-game." Target="{Binding ElementName=ToggleLaserSightBox, Mode=OneWay}" />
-                        	<TextBox x:Name="ToggleLaserSightBox"
+                            <TextBox x:Name="ToggleLaserSightBox"
                         		Text="{Binding ToggleLaserSight, Converter={StaticResource HexConverter}}"
                         		Width="40"
                         		MaxLength="4" FontSize="14" Margin="0,0,10,0" />
-                        	<TextBlock FontSize="12"
+                            <TextBlock FontSize="12"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=ToggleLaserSightBox}"
                         		VerticalAlignment="Center" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                </TabItem>
+            </TabItem>
 
         </TabControl>
-        <StackPanel Grid.Row="1" VerticalAlignment="Center" >
-            <Button x:Name="SaveButton" Width="90" Click="SaveButton_OnClick" Padding="1,0,1,1" >_Save Settings</Button>
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+            <Button x:Name="SaveButton" Style="{StaticResource GreenButton}" Width="90" Click="SaveButton_OnClick" Content="_Save Settings" />
         </StackPanel>
     </Grid>
 </Window>

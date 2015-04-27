@@ -24,7 +24,7 @@ namespace Advanced3DVConfig.ViewModel
             {"0B", "CTRL+SHIFT+WIN"},
             {"0C", "ALT+WIN"},
             {"0D", "ALT+SHIFT+WIN"},
-            {"0E", "ALT+CTRL+WIN"},
+            {"0E", "ALT+CTRL"},         // "ALT+CTRL+WIN" according to 3d-vision blog chart, but ToggleMemo uses '0E' by default and WIN isn't part of the combination
             {"0F", "ALT+CTRL+SHIFT+WIN"},
         };
 
@@ -35,18 +35,23 @@ namespace Advanced3DVConfig.ViewModel
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var s = value as string;
-            if (s != null && s.Length == 4)
-            {
-
+            if (s != null && s.Length == 4){
                 string first = s.Substring(0, 2);
                 string second = s.Substring(2, 2);
+                int keySecondInt;
+                try {
+                    Int32.Parse(first, NumberStyles.HexNumber);
+                    keySecondInt = Int32.Parse((string)second, NumberStyles.HexNumber);
+                }
+                catch (Exception) {
+                    return "Invalid Hex Keycode";
+                }
                 if (Int32.Parse(first, NumberStyles.HexNumber) > 15)
-                    return "modifier error";
+                    return "Modifier keycode out of range.";
                 string keyFirst = _modifierKeys[first.ToUpperInvariant()];
-
-                int keySecondInt = Int32.Parse((string) second, NumberStyles.HexNumber);
+                
                 string keySecond;
-                if (keySecondInt >7)
+                if (keySecondInt > 7)
                     keySecond = KeyInterop.KeyFromVirtualKey(keySecondInt).ToString();
                 else if (keySecondInt < 7 && keySecondInt > 0)
                     keySecond = _mouseButtons[keySecondInt - 1];

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Diagnostics;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Advanced3DVConfig.View
@@ -39,6 +40,10 @@ namespace Advanced3DVConfig.View
                 System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     "NVStereoscopic3D.IMG");
             System.Diagnostics.Process.Start(stereoImagesDir);
+        }
+
+        private void ResetSettingButton_Click(object sender, RoutedEventArgs e){
+            _viewModel.ResetASetting(((Button)sender).Content.ToString());
         }
     }
 }

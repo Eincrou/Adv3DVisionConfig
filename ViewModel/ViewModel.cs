@@ -57,10 +57,18 @@ namespace Advanced3DVConfig.ViewModel
             get { return _s3DKeys.Stereo3DHotkeySettings["StereoConvergenceAdjustLess"]; }
             set { _s3DKeys.Stereo3DHotkeySettings["StereoConvergenceAdjustLess"] = value; }
         }
+        public int StereoToggleMode {
+            get { return _s3DKeys.Stereo3DHotkeySettings["StereoToggleMode"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["StereoToggleMode"] = value; }
+        }
 
         #endregion
 
         #region Advanced
+        public int CycleFrustumAdjust {
+            get { return _s3DKeys.Stereo3DHotkeySettings["CycleFrustumAdjust"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["CycleFrustumAdjust"] = value; }
+        }
         public int MonitorSize {
             get { return _s3DKeys.Stereo3DSettings["MonitorSize"]; }
             set { _s3DKeys.Stereo3DSettings["MonitorSize"] = value; }
@@ -76,6 +84,14 @@ namespace Advanced3DVConfig.ViewModel
         public int StereoVisionConfirmed {
             get { return _s3DKeys.Stereo3DSettings["StereoVisionConfirmed"]; }
             set { _s3DKeys.Stereo3DSettings["StereoVisionConfirmed"] = value; }
+        }
+        public int ToggleMemo {
+            get { return _s3DKeys.Stereo3DHotkeySettings["ToggleMemo"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["ToggleMemo"] = value; }
+        }
+        public int WriteConfig {
+            get { return _s3DKeys.Stereo3DHotkeySettings["WriteConfig"]; }
+            set { _s3DKeys.Stereo3DHotkeySettings["WriteConfig"] = value; }
         }
         #endregion
 
@@ -105,32 +121,32 @@ namespace Advanced3DVConfig.ViewModel
             get { return _s3DKeys.Stereo3DHotkeySettings["ToggleLaserSight"]; }
             set { _s3DKeys.Stereo3DHotkeySettings["ToggleLaserSight"] = value; }
         }
+
         #endregion
-
-
-
+        
 
         public ViewModel()
         {
-            try
-            {
+            try{
                 _s3DKeys = new Stereo3DKeys();
             }
-            catch (Exception exception)
-            {
+            catch (Exception exception){
                 MessageBox.Show(exception.Message, "Registry Error");
             }
         }
 
-        public void SaveSettings()
-        {
+        public void SaveSettings(){
             string savedSettings = _s3DKeys.SaveSettingsToRegistry();
             string saveMessage = "Settings saved.\r\n" + savedSettings;
             MessageBox.Show(saveMessage, "Save success");
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public void ResetASetting(string keyName){
+            _s3DKeys.ResetKeyToDefault(keyName);
+            OnPropertyChanged(keyName);
+        }
 
+        public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
