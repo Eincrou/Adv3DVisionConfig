@@ -13,14 +13,14 @@ namespace Advanced3DVConfig.Model
     {
         private RegistryKey _stereo3DKey;
 
-        private readonly Dictionary<string, int> _keySettingsDefaults = new Dictionary<string, int>()
+        public static readonly Dictionary<string, int> KeySettingsDefaults = new Dictionary<string, int>()
         {
             {"EnableWindowedMode", 5}, {"EnablePersistentStereoDesktop", 0}, {"MonitorSize", -1}, {"StereoAdjustEnable", 1}, 
                 {"StereoDefaultOn", 1}, {"StereoSeparation", 15},  {"StereoVisionConfirmed", 0},
             {"StereoImageType", 0}, {"SnapShotQuality", 50},
             {"LaserSightEnabled", 1},
         };
-        private readonly Dictionary<string,int>  _keySettingsHotkeyDefaults = new Dictionary<string, int>()
+        public static readonly Dictionary<string,int>  KeySettingsHotkeyDefaults = new Dictionary<string, int>()
         {
             {"CycleFrustumAdjust", 634}, {"DeleteConfig", 1142}, {"GammaAdjustLess", 1095}, {"GammaAdjustMore", 583}, {"GlassesDelayMinus",1213}, {"GlassesDelayPlus", 1211}, 
             {"RHWAtScreenLess", 632}, {"RHWAtScreenMore", 633}, {"RHWLessAtScreenLess", 1144}, {"RHWLessAtScreenMore", 1145}, {"SaveStereoImage", 1136},
@@ -64,9 +64,9 @@ namespace Advanced3DVConfig.Model
         }
 
         private void ReadStereo3DKeys() {
-            foreach (var keyName in _keySettingsDefaults.Keys)
+            foreach (var keyName in KeySettingsDefaults.Keys)
                 Stereo3DSettings.Add(keyName, ReadKeyValue(keyName));
-            foreach (var keyNameHotkey in _keySettingsHotkeyDefaults.Keys)
+            foreach (var keyNameHotkey in KeySettingsHotkeyDefaults.Keys)
                 Stereo3DHotkeySettings.Add(keyNameHotkey, ReadKeyValue(keyNameHotkey));
         }
 
@@ -80,10 +80,10 @@ namespace Advanced3DVConfig.Model
         /// </summary>
         /// <param name="keyToReset">The exact name of the registry key to reset to default.</param>
         public void ResetKeyToDefault(string keyToReset) {
-            if(_keySettingsDefaults.ContainsKey(keyToReset) && _keySettingsDefaults[keyToReset] >= 0)
-                Stereo3DSettings[keyToReset] = _keySettingsDefaults[keyToReset];
-            else if (_keySettingsHotkeyDefaults.ContainsKey(keyToReset))
-                Stereo3DHotkeySettings[keyToReset] = _keySettingsHotkeyDefaults[keyToReset];
+            if(KeySettingsDefaults.ContainsKey(keyToReset) && KeySettingsDefaults[keyToReset] >= 0)
+                Stereo3DSettings[keyToReset] = KeySettingsDefaults[keyToReset];
+            else if (KeySettingsHotkeyDefaults.ContainsKey(keyToReset))
+                Stereo3DHotkeySettings[keyToReset] = KeySettingsHotkeyDefaults[keyToReset];
             else
                 throw new ArgumentException("There is no known default value for this key.");
         }

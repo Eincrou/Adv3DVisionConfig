@@ -43,7 +43,7 @@ namespace Advanced3DVConfig.View
         }
 
         private void ResetSettingButton_Click(object sender, RoutedEventArgs e){
-            _viewModel.ResetASetting(((Button)sender).Content.ToString());
+            _viewModel.ResetASetting(((Button)sender).Tag.ToString());
         }
     }
 }
