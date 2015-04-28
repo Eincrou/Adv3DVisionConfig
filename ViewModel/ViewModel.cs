@@ -136,6 +136,13 @@ namespace Advanced3DVConfig.ViewModel
         }
 
         public void SaveSettings(){
+            var duplicateHotkeysMessage = _s3DKeys.CheckForDuplicateHotkeys();
+            if (duplicateHotkeysMessage != null)
+            {
+                MessageBox.Show(duplicateHotkeysMessage, "Duplicate hotkeys detected", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
             string savedSettings = _s3DKeys.SaveSettingsToRegistry();
             string saveMessage = "Settings saved.\r\n" + savedSettings;
             MessageBox.Show(saveMessage, "Save success");

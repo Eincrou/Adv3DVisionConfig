@@ -47,7 +47,7 @@ namespace Advanced3DVConfig.ViewModel
                     return "Invalid Hex Keycode";
                 }
                 if (Int32.Parse(first, NumberStyles.HexNumber) > 15)
-                    return "Modifier keycode out of range.";
+                    return "Modifier keycode out of range";
                 string keyFirst = _modifierKeys[first.ToUpperInvariant()];
                 
                 string keySecond;
@@ -60,7 +60,7 @@ namespace Advanced3DVConfig.ViewModel
                 
                 return String.Format("{0} + {1}",keyFirst, keySecond);
             }
-            return "error";
+            return "Valid keycode is four characters";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

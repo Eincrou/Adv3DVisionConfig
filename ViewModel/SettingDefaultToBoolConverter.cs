@@ -20,8 +20,7 @@ namespace Advanced3DVConfig.ViewModel
             string keyName = (string) parameter;
             if (value is int)
                 inputValue = (int) value;
-            else if (value is string)
-            {
+            else if (value is string){
                 if (!Int32.TryParse((string) value, NumberStyles.HexNumber, null, out inputValue))
                     return true;
             }
@@ -34,7 +33,7 @@ namespace Advanced3DVConfig.ViewModel
                 return inputValue != Stereo3DKeys.KeySettingsDefaults[keyName];
             if (Stereo3DKeys.KeySettingsHotkeyDefaults.ContainsKey(keyName))
                 return inputValue != Stereo3DKeys.KeySettingsHotkeyDefaults[keyName];
-            return false;
+            throw new ArgumentException("No Stereo3DKeySetting matches this parameter", "parameter");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

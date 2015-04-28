@@ -1,10 +1,9 @@
-﻿//#define DEBUG
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Win32;
 
 namespace Advanced3DVConfig.Model
@@ -76,6 +75,36 @@ namespace Advanced3DVConfig.Model
             return (int)keyValue;
         }
         /// <summary>
+        /// Checks for any duplicate hotkey values. Returns a string description of the duplicates, or null if all values are unique.
+        /// </summary>
+        /// <returns></returns>
+        public string CheckForDuplicateHotkeys(){
+            var sb = new StringBuilder();
+            var groupedHotkeyValues = from s in Stereo3DHotkeySettings
+                group s by s.Value
+                into d
+                where d.Count() > 1
+                select d;
+            if (!groupedHotkeyValues.Any()) return null;
+            foreach (var groupedHotkeyValue in groupedHotkeyValues)
+            {
+                var saveValue = (from v in groupedHotkeyValue
+                    select v.Key).ToArray();
+                sb.Append(String.Format("{0} - {1}", String.Join(", ", saveValue), groupedHotkeyValue.Key) +
+                          Environment.NewLine);
+            }
+            sb.Append(Environment.NewLine + "Settings not saved. Please resolve all hotkey conflicts.");
+            return sb.ToString();
+            //foreach (var hotkeyToCheck in Stereo3DHotkeySettings)
+            //{
+            //    foreach (var hotkeyChecked in Stereo3DHotkeySettings)
+            //    {
+            //        if ((hotkeyToCheck.Key != hotkeyChecked.Key) && hotkeyToCheck.Value == hotkeyChecked.Value)
+            //            sb.Append(String.Format("{0} & {1}: {2}", hotkeyToCheck.Key, hotkeyChecked.Key, hotkeyToCheck.Value));
+            //    }
+            //}
+        }
+        /// <summary>
         /// Resets the provided registry key to its default value. (MonitorSize has no default value)
         /// </summary>
         /// <param name="keyToReset">The exact name of the registry key to reset to default.</param>
@@ -112,9 +141,11 @@ namespace Advanced3DVConfig.Model
             }
             else 
                 savedSettings.Append("No settings have been changed, so nothing was saved.");
-#if DEBUG
-            DebugWriteAllStereo3DKeys();
-#endif
+
+            #if DEBUG
+             //   DebugWriteAllStereo3DKeys();
+            #endif
+
             return savedSettings.ToString();
         }
 
