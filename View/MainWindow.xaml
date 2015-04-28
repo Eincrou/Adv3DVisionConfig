@@ -4,7 +4,7 @@
         xmlns:view="clr-namespace:Advanced3DVConfig.View"
         xmlns:viewmodel="clr-namespace:Advanced3DVConfig.ViewModel"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="Advanced 3D Vision Configuration v1.2" Height="370" MinHeight="365" Width="400" MinWidth="400" ResizeMode="CanMinimize">
+        Title="Advanced 3D Vision Configuration v1.2" Height="370" MinHeight="370" MaxHeight="370" Width="400" MinWidth="400" MaxWidth="450" ResizeMode="CanMinimize">
     <Window.Resources>
         <viewmodel:HexConverter x:Key="HexConverter" />
         <viewmodel:HexToKeyboardConverter x:Key="HexToKeyboardConverter" />
@@ -60,9 +60,9 @@
                                     </Binding>
                                  </TextBox.Text>
                             </TextBox>
-                            <TextBlock FontSize="12"
+                            <TextBlock FontSize="12" VerticalAlignment="Center" 
                     			Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=Toggle3DBox}"
-                    			VerticalAlignment="Center" />
+                    			ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <StackPanel x:Name="SeparationLessPanel" Orientation="Horizontal" Margin="0,3,0,3">
                             <Button Tag="StereoSeparationAdjustLess" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
@@ -71,11 +71,17 @@
                                         Converter={StaticResource SettingDefaultToBoolConverter}, ConverterParameter=StereoSeparationAdjustLess}"/>
                             <Label Content="Separation- :" FontSize="14" Margin="0,0,23,0"
                         		ToolTip="Decreases maximum depth of the 3D scene" Target="{Binding ElementName=DepthLessBox, Mode=OneWay}" />
-                            <TextBox x:Name="DepthLessBox" Width="40" MaxLength="4" FontSize="14" Margin="0,0,10,0"
-                        		Text="{Binding StereoSeparationAdjustLess, Converter={StaticResource HexConverter}}"/>
-                            <TextBlock FontSize="12"
+                            <TextBox x:Name="DepthLessBox" Width="40" MaxLength="4" FontSize="14" Margin="0,0,10,0">
+                                <Binding Path="StereoSeparationAdjustLess" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule/>
+                                        <view:HexTextInputRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                            <TextBlock FontSize="12" VerticalAlignment="Center" 
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=DepthLessBox}"
-                        		VerticalAlignment="Center" />
+                        		ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <StackPanel x:Name="SeparationMorePanel" Orientation="Horizontal" Margin="0,3,0,3">
                             <Button Tag="StereoSeparationAdjustMore" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
@@ -84,11 +90,17 @@
                                         Converter={StaticResource SettingDefaultToBoolConverter}, ConverterParameter=StereoSeparationAdjustMore}"/>
                             <Label Content="Separation+ :" FontSize="14" Margin="0,0,19,0"
                         		ToolTip="Increases maximum depth of the 3D scene" Target="{Binding ElementName=DepthMoreBox, Mode=OneWay}" />
-                            <TextBox x:Name="DepthMoreBox" Width="40" MaxLength="4" FontSize="14" Margin="0,0,10,0"
-                        		Text="{Binding StereoSeparationAdjustMore, Converter={StaticResource HexConverter}}"/>
-                            <TextBlock FontSize="12"
+                            <TextBox x:Name="DepthMoreBox" Width="40" MaxLength="4" FontSize="14" Margin="0,0,10,0">
+                                <Binding Path="StereoSeparationAdjustMore" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule/>
+                                        <view:HexTextInputRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                            <TextBlock FontSize="12" VerticalAlignment="Center" 
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=DepthMoreBox}"
-                        		VerticalAlignment="Center" />
+                        		ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <StackPanel x:Name="ConvergenceLessPanel" Orientation="Horizontal" Margin="0,3,-10,3">
                             <Button Tag="StereoConvergenceAdjustLess" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
@@ -97,11 +109,17 @@
                                         Converter={StaticResource SettingDefaultToBoolConverter}, ConverterParameter=StereoConvergenceAdjustLess}"/>
                             <Label Content="Convergence- :" FontSize="14" Margin="0,0,9,0"
                         		ToolTip="Makes objects appear further away." Target="{Binding ElementName=ConvergLessBox, Mode=OneWay}" />
-                            <TextBox x:Name="ConvergLessBox" MaxLength="4" Margin="0,0,10,0"
-                        		Text="{Binding StereoConvergenceAdjustLess, Converter={StaticResource HexConverter}}" />
-                            <TextBlock FontSize="12"
+                            <TextBox x:Name="ConvergLessBox" Width="40" MaxLength="4" Margin="0,0,10,0">
+                                <Binding Path="StereoConvergenceAdjustLess" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule/>
+                                        <view:HexTextInputRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                            <TextBlock FontSize="12" VerticalAlignment="Center"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=ConvergLessBox}"
-                        		VerticalAlignment="Center" />
+                        		 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <StackPanel x:Name="ConvergenceMorePanel" Orientation="Horizontal" Margin="0,3,-10,3">
                             <Button Tag="StereoConvergenceAdjustMore" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
@@ -110,11 +128,17 @@
                                         Converter={StaticResource SettingDefaultToBoolConverter}, ConverterParameter=StereoConvergenceAdjustMore}"/>
                             <Label Content="Convergence+ :" FontSize="14" Margin="0,0,5,0"
                         		ToolTip="Makes objects appear closer." Target="{Binding ElementName=ConvergMoreBox, Mode=OneWay}" />
-                            <TextBox x:Name="ConvergMoreBox" MaxLength="4" Margin="0,0,10,0"
-                        		Text="{Binding StereoConvergenceAdjustMore, Converter={StaticResource HexConverter}}"/>
-                            <TextBlock FontSize="12"
+                            <TextBox x:Name="ConvergMoreBox" Width="40" MaxLength="4" Margin="0,0,10,0">
+                                <Binding Path="StereoConvergenceAdjustMore" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule/>
+                                        <view:HexTextInputRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                            <TextBlock FontSize="12" VerticalAlignment="Center"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=ConvergMoreBox}"
-                        		VerticalAlignment="Center" />
+                        		 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <StackPanel x:Name="StereoToggleModePanel" Orientation="Horizontal" Margin="0,3,-10,3">
                             <Button Tag="StereoToggleMode" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
@@ -123,13 +147,17 @@
                                         Converter={StaticResource SettingDefaultToBoolConverter}, ConverterParameter=StereoToggleMode}"/>
                             <Label Content="Toggle 3D compat. mode:"
                         		ToolTip="Toggle between 3D Vision mode and 3D compatibility mode" Target="{Binding ElementName=StereoToggleModeBox, Mode=OneWay}" VerticalAlignment="Center" />
-                            <TextBox x:Name="StereoToggleModeBox"
-                        		Text="{Binding StereoToggleMode, Converter={StaticResource HexConverter}}"
-                        		Width="40"
-                        		MaxLength="4" Margin="5,0,10,0" />
-                            <TextBlock FontSize="12"
+                            <TextBox x:Name="StereoToggleModeBox" Width="40" MaxLength="4" Margin="5,0,10,0">
+                                <Binding Path="StereoToggleMode" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule/>
+                                        <view:HexTextInputRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                            <TextBlock FontSize="12" VerticalAlignment="Center"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=StereoToggleModeBox}"
-                        		VerticalAlignment="Center" />
+                        		 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <TextBlock x:Name="ModifiersRefBlock" Text="Click here for key combinations guide."
                         	Foreground="#FF8CDC00"
@@ -233,13 +261,17 @@
                                             Converter={StaticResource SettingDefaultToBoolConverter}, Mode=OneWay, ConverterParameter=ToggleMemo}"/>
                                 <Label Content="Toggle compat. info:" Target="{Binding ElementName=ToggleMemoBox, Mode=OneWay}" VerticalAlignment="Center"
                         			ToolTip="Stereoscopic compatibility information and recommended in-game settings." />
-                                <TextBox x:Name="ToggleMemoBox"
-                        			Text="{Binding ToggleMemo, Converter={StaticResource HexConverter}}"
-                        			Width="40"
-                        			MaxLength="4" Margin="5,0,10,0" />
-                                <TextBlock FontSize="12"
+                                <TextBox x:Name="ToggleMemoBox" Width="40" MaxLength="4" Margin="5,0,10,0">
+                                    <Binding Path="ToggleMemo" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <ExceptionValidationRule/>
+                                            <view:HexTextInputRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox>
+                                <TextBlock FontSize="12" VerticalAlignment="Center"
                         			Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=ToggleMemoBox}"
-                        			VerticalAlignment="Center" />
+                        			ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                             </StackPanel>
                             <StackPanel x:Name="WriteConfigPanel" Orientation="Horizontal" Margin="0,3,-10,3">
                                 <Button Tag="WriteConfig" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
@@ -248,13 +280,17 @@
                                             Converter={StaticResource SettingDefaultToBoolConverter}, Mode=OneWay, ConverterParameter=WriteConfig}"/>
                                 <Label Content="Save in-game changes:" Target="{Binding ElementName=WriteConfigBox, Mode=OneWay}" VerticalAlignment="Center"
                         			ToolTip="Saves changes made to advanced in-game settings (eg, convergence &amp; fustrum adjustment)."  />
-                                <TextBox x:Name="WriteConfigBox"
-                        			Text="{Binding WriteConfig, Converter={StaticResource HexConverter}}"
-                        			Width="40"
-                        			MaxLength="4" Margin="5,0,10,0" />
+                                <TextBox x:Name="WriteConfigBox" Width="40" MaxLength="4" Margin="5,0,10,0">
+                                    <Binding Path="WriteConfig" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <ExceptionValidationRule/>
+                                            <view:HexTextInputRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox>
                                 <TextBlock FontSize="12"
-                        			Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=WriteConfigBox}"
-                        			VerticalAlignment="Center" />
+                        			Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=WriteConfigBox}" VerticalAlignment="Center"
+                        			 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                             </StackPanel>
                             <StackPanel x:Name="CycleFrustumAdjustPanel" Orientation="Horizontal" Margin="0,3,-10,3">
                                 <Button Tag="CycleFrustumAdjust" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" Click="ResetSettingButton_Click"
@@ -263,13 +299,17 @@
                                             Converter={StaticResource SettingDefaultToBoolConverter}, Mode=OneWay, ConverterParameter=CycleFrustumAdjust}"/>
                                 <Label Content="Cycle fustrum adjustments:"	ToolTip="Cycle through three different fustrum adjustments." 
 								Target="{Binding ElementName=CycleFrustumAdjustBox, Mode=OneWay}" VerticalAlignment="Center" />
-                                <TextBox x:Name="CycleFrustumAdjustBox"
-									Text="{Binding CycleFrustumAdjust, Converter={StaticResource HexConverter}}"
-									Width="40"
-									MaxLength="4" Margin="5,0,10,0" />
-                                <TextBlock FontSize="12"
+                                <TextBox x:Name="CycleFrustumAdjustBox" Width="40" MaxLength="4" Margin="5,0,10,0">
+                                    <Binding Path="CycleFrustumAdjust" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <ExceptionValidationRule/>
+                                            <view:HexTextInputRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox>
+                                <TextBlock FontSize="12" VerticalAlignment="Center"
 									Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=CycleFrustumAdjustBox}"
-									VerticalAlignment="Center" />
+									ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -318,13 +358,17 @@
                                             Converter={StaticResource SettingDefaultToBoolConverter}, Mode=OneWay, ConverterParameter=SaveStereoImage}"/>
                             <Label Content="Take _Screenshot:" FontSize="14" Margin="0,0,5,0"
                         		ToolTip="Saves a stereoscopic screenshot image." />
-                            <TextBox x:Name="SaveStereoImageBox"
-                        		Text="{Binding SaveStereoImage, Converter={StaticResource HexConverter}}"
-                        		Width="40"
-                        		MaxLength="4" FontSize="14" Margin="0,0,10,0" />
-                            <TextBlock FontSize="12"
+                            <TextBox x:Name="SaveStereoImageBox" Width="40" MaxLength="4" FontSize="14" Margin="0,0,10,0">
+                                <Binding Path="SaveStereoImage" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule/>
+                                        <view:HexTextInputRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                            <TextBlock FontSize="12" VerticalAlignment="Center"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=SaveStereoImageBox}"
-                        		VerticalAlignment="Center" />
+                        		 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -354,13 +398,17 @@
                                             Converter={StaticResource SettingDefaultToBoolConverter}, Mode=OneWay, ConverterParameter=ToggleLaserSight}"/>
                             <Label Content="Toggle Laser Sight:" FontSize="14" Margin="0,0,5,0"
                         		ToolTip="Enables or disables the stereoscopic laser sight in-game." Target="{Binding ElementName=ToggleLaserSightBox, Mode=OneWay}" />
-                            <TextBox x:Name="ToggleLaserSightBox"
-                        		Text="{Binding ToggleLaserSight, Converter={StaticResource HexConverter}}"
-                        		Width="40"
-                        		MaxLength="4" FontSize="14" Margin="0,0,10,0" />
-                            <TextBlock FontSize="12"
+                            <TextBox x:Name="ToggleLaserSightBox" Width="40" MaxLength="4" FontSize="14" Margin="0,0,10,0">
+                                <Binding Path="ToggleLaserSight" Converter="{StaticResource HexConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule/>
+                                        <view:HexTextInputRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                            <TextBlock FontSize="12" VerticalAlignment="Center"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=ToggleLaserSightBox}"
-                        		VerticalAlignment="Center" />
+                        		ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
