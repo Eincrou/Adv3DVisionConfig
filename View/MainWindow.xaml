@@ -4,14 +4,13 @@
         xmlns:view="clr-namespace:Advanced3DVConfig.View"
         xmlns:viewmodel="clr-namespace:Advanced3DVConfig.ViewModel"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="Advanced 3D Vision Configuration v1.2" Height="370" MinHeight="370" MaxHeight="370" Width="400" MinWidth="400" MaxWidth="450" ResizeMode="CanMinimize">
+        Title="Advanced 3D Vision Configuration v1.3" Height="370" MinHeight="370" MaxHeight="370" Width="400" MinWidth="400" MaxWidth="450" ResizeMode="CanMinimize">
     <Window.Resources>
         <viewmodel:HexConverter x:Key="HexConverter" />
         <viewmodel:HexToKeyboardConverter x:Key="HexToKeyboardConverter" />
         <viewmodel:OnOffConverter x:Key="OnOffConverter"/>
         <viewmodel:SettingDefaultToBoolConverter x:Key="SettingDefaultToBoolConverter"/>
         <viewmodel:ViewModel x:Key="ViewModel"/>
-        <view:HexTextInputRule x:Key="HexTextInputRule"/>
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.8,1.5" StartPoint="0,0">
@@ -327,7 +326,7 @@
                             <Label Content="Stereo_ImageType:" Margin="0,0,5,0" 
                                    ToolTip="Format for stereoscopic screenshot images. (JPEG or PNG)&#xA;Maximum number of images per application before overwrite: JPS 99, PNS 999"/>
                             <ComboBox x:Name="StereImageTypeCombo" SelectedIndex="{Binding StereoImageType, Mode=TwoWay}"
-                                          FontSize="14" Height="24" Foreground="White" BorderBrush="#FF383838">
+                                          FontSize="14" Height="24">
                                 <ComboBoxItem Content="JPS" />
                                 <ComboBoxItem Content="PNS" />
                             </ComboBox>

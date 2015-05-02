@@ -3,8 +3,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" 
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:Themes1="clr-namespace:Xceed.Wpf.Toolkit.Themes;assembly=Xceed.Wpf.Toolkit" 
     mc:Ignorable="d" >
 	<LinearGradientBrush x:Key="TabBorderBackgroundBrush"  EndPoint="0.65,1.87" StartPoint="0,0">
 		<GradientStop Color="#FF111216" Offset="0.51"/>
@@ -71,22 +69,6 @@
 			</Setter.Value>
 		</Setter>
 		<Setter Property="Padding" Value="0,1,6,-5"/>
-	</Style>
-	<Style TargetType="{x:Type ComboBoxItem}">
-		<Style.Resources>
-			<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="YellowGreen" />
-		</Style.Resources>
-		<Setter Property="Background" Value="#FF323232"/>
-	</Style>
-	<Style TargetType="{x:Type ComboBox}">
-		<Setter Property="Background">
-			<Setter.Value>
-				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-					<GradientStop Color="#FF6B7579" Offset="0"/>
-					<GradientStop Color="#FF5A6468" Offset="1"/>
-				</LinearGradientBrush>
-			</Setter.Value>
-		</Setter>
 	</Style>
 
 	<Style TargetType="{x:Type Button}" x:Key="GreenButton">
@@ -164,11 +146,11 @@
 				<ControlTemplate TargetType="{x:Type Button}">
 					<ControlTemplate.Resources>
 						<Storyboard x:Key="RefreshButtonClick">
-							<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="Layer_1">
+							<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="path">
 								<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-								<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="180">
+								<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="180">
 									<EasingDoubleKeyFrame.EasingFunction>
-										<BackEase EasingMode="EaseInOut" Amplitude="0.4"/>
+										<QuarticEase EasingMode="EaseOut"/>
 									</EasingDoubleKeyFrame.EasingFunction>
 								</EasingDoubleKeyFrame>
 							</DoubleAnimationUsingKeyFrames>
@@ -213,36 +195,31 @@
 						</Canvas.RenderTransform>
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="CommonStates">
-								<VisualState x:Name="Normal">
-									<Storyboard/>
-								</VisualState>
+								<VisualState x:Name="Normal"/>
 								<VisualState x:Name="MouseOver">
 									<Storyboard>
-										<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path1">
-											<EasingColorKeyFrame KeyTime="0" Value="#FFC9FF76"/>
-										</ColorAnimationUsingKeyFrames>
 										<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
-											<EasingColorKeyFrame KeyTime="0" Value="#FFC9FF76"/>
+											<EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FFC9FF76"/>
 										</ColorAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="path">
+											<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+										</DoubleAnimationUsingKeyFrames>
+										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="path">
+											<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+										</DoubleAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>
 								<VisualState x:Name="Pressed">
 									<Storyboard>
 										<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
-											<EasingColorKeyFrame KeyTime="0" Value="#FF80BB24"/>
-										</ColorAnimationUsingKeyFrames>
-										<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path1">
-											<EasingColorKeyFrame KeyTime="0" Value="#FF80BB24"/>
+											<EasingColorKeyFrame KeyTime="0" Value="#FF66951E"/>
 										</ColorAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>
 								<VisualState x:Name="Disabled">
 									<Storyboard>
 										<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
-											<EasingColorKeyFrame KeyTime="0" Value="#FFCDCDCD"/>
-										</ColorAnimationUsingKeyFrames>
-										<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path1">
-											<EasingColorKeyFrame KeyTime="0" Value="#FFCDCDCD"/>
+											<EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FFB2B2B2"/>
 										</ColorAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>
@@ -257,19 +234,20 @@
 									<TranslateTransform/>
 								</TransformGroup>
 							</Canvas.RenderTransform>
-							<Path x:Name="path" Fill="GreenYellow" Height="13" Canvas.Left="0" Canvas.Top="0" Width="23"
-								Data="F1M21.263,0.352C21.263,0.352 19.938,1.645 19.02,2.553 14.333,-0.871 7.728,-0.483 3.495,3.75 1.025,6.22 -0.128,9.497 0.011,12.733L4.011,12.733C3.87,10.521 4.629,8.266 6.319,6.575 8.982,3.912 13.054,3.532 16.131,5.413 15.089,6.445 13.886,7.651 13.886,7.651 13.045,8.66 13.99,9.243 14.47,9.228L20.094,9.227C20.391,9.227,20.633,9.228,20.633,9.228L21.176,9.228 22.268,9.228C22.566,9.228,22.808,8.985,22.808,8.687L22.808,0.956C22.842,0.249,22.066,-0.437,21.263,0.352" />
-							<Path x:Name="path1" Fill="GreenYellow" Height="13" Canvas.Left="0.828" Canvas.Top="11.389" Width="23"
-								Data="F1M1.546,12.381C1.546,12.381 2.872,11.088 3.789,10.18 8.477,13.604 15.081,13.216 19.315,8.983 21.785,6.512 22.937,3.236 22.799,0L18.798,0C18.94,2.211 18.181,4.467 16.49,6.159 13.827,8.821 9.755,9.202 6.678,7.32 7.72,6.288 8.923,5.082 8.923,5.082 9.764,4.072 8.819,3.49 8.339,3.505L2.715,3.507C2.418,3.507,2.175,3.505,2.175,3.505L1.632,3.505 0.542,3.505C0.244,3.505,0.002,3.747,0.001,4.046L0.001,11.778C-0.032,12.484,0.744,13.17,1.546,12.381" />
+							<Path x:Name="path" Fill="GreenYellow" Height="24.122" Canvas.Left="0" Canvas.Top="0" Width="23.638"
+								Data="M21.263212,0.35199237 C21.263212,0.35199237 19.938212,1.6449924 19.020212,2.5529924 14.333212,-0.87100763 7.7282119,-0.48300763 3.4952119,3.7499924 1.0252119,6.2199924 -0.12778814,9.4969924 0.011211864,12.732992 L4.0112119,12.732992 C3.8702119,10.520992 4.6292119,8.2659924 6.3192119,6.5749924 8.9822119,3.9119924 13.054212,3.5319924 16.131212,5.4129924 15.089212,6.4449924 13.886212,7.6509924 13.886212,7.6509924 13.045212,8.6599924 13.990212,9.2429924 14.470212,9.2279924 L20.094212,9.2269924 C20.391212,9.2269924 20.633212,9.2279924 20.633212,9.2279924 L21.176212,9.2279924 22.268212,9.2279924 C22.566212,9.2279924 22.808212,8.9849924 22.808212,8.6869924 L22.808212,0.95599237 C22.842212,0.24899237 22.066212,-0.43700763 21.263212,0.35199237 M2.3742119,23.769992 C2.3742119,23.769992 3.7002119,22.476992 4.6172119,21.568992 9.3052119,24.992992 15.909212,24.604992 20.143212,20.371992 22.613212,17.900992 23.765212,14.624992 23.627212,11.388992 L19.626212,11.388992 C19.768212,13.599992 19.009212,15.855992 17.318212,17.547992 14.655212,20.209992 10.583212,20.590992 7.5062119,18.708992 8.5482119,17.676992 9.7512119,16.470992 9.7512119,16.470992 10.592212,15.460992 9.6472119,14.878992 9.1672119,14.893992 L3.5432119,14.895992 C3.2462119,14.895992 3.0032119,14.893992 3.0032119,14.893992 L2.4602119,14.893992 1.3702119,14.893992 C1.0722119,14.893992 0.83021186,15.135992 0.82921186,15.434992 L0.82921186,23.166992 C0.79621186,23.872992 1.5722119,24.558992 2.3742119,23.769992" Stretch="Fill" RenderTransformOrigin="0.5,0.5" >
+								<Path.RenderTransform>
+									<TransformGroup>
+										<ScaleTransform/>
+										<SkewTransform/>
+										<RotateTransform Angle="180"/>
+										<TranslateTransform/>
+									</TransformGroup>
+								</Path.RenderTransform>
+							</Path>
 						</Canvas>
 					</Canvas>
 					<ControlTemplate.Triggers>
-						<EventTrigger RoutedEvent="UIElement.MouseLeave">
-							<RemoveStoryboard BeginStoryboardName="RefreshButtonMouseEnter_BeginStoryboard"/>
-						</EventTrigger>
-						<EventTrigger RoutedEvent="UIElement.MouseEnter">
-							<BeginStoryboard x:Name="RefreshButtonMouseEnter_BeginStoryboard" Storyboard="{StaticResource RefreshButtonMouseEnter}"/>
-						</EventTrigger>
 						<EventTrigger RoutedEvent="ButtonBase.Click">
 							<BeginStoryboard Storyboard="{StaticResource RefreshButtonClick}"/>
 						</EventTrigger>
@@ -409,4 +387,71 @@
 			</Setter.Value>
 		</Setter>
 	</Style>	
+
+	<!-- Simple CheckBox -->
+		<Style x:Key="CheckBoxFocusVisual">
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Border>
+						<Rectangle Margin="15,0,0,0" Stroke="#60000000" StrokeThickness="1" StrokeDashArray="1 2"/>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+		<Style TargetType="{x:Type CheckBox}">
+			<Setter Property="SnapsToDevicePixels" Value="true"/>
+			<Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}"/>
+			<Setter Property="Background" Value="#FF15181B"/>
+			<Setter Property="BorderBrush" Value="#FF4D4D4D"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type CheckBox}">
+					
+					<!-- BulletDecorator is used to provide baseline alignment between the checkmark and the Content -->
+						<BulletDecorator Background="Transparent">
+							<BulletDecorator.Bullet>
+								<Grid Width="13" Height="13">
+									<Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+									<Path x:Name="CheckMark" Stroke="YellowGreen" StrokeThickness="2" SnapsToDevicePixels="False" Data="M0.99999997,5.6342377 L5.1259376,10.465506 10.542567,0.99999999" Margin="0.862,0.529,0.595,1.005"/>
+								</Grid>
+							</BulletDecorator.Bullet>
+							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True"/>
+						</BulletDecorator>
+					
+					<!-- This uses Visibility to hide and show the CheckMark on IsChecked -->
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsChecked" Value="false">
+								<Setter Property="Visibility" Value="Collapsed" TargetName="CheckMark"/>
+							</Trigger>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="Stroke" TargetName="CheckMark" Value="#FFBBD682"/>
+								<Setter Property="StrokeThickness" TargetName="CheckMark" Value="3"/>
+							</Trigger>
+							<Trigger Property="IsPressed" Value="true">
+								<Setter Property="Background" TargetName="Border" Value="#FF616161"/>
+								<Setter Property="BorderBrush" TargetName="Border" Value="YellowGreen"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Stroke" TargetName="CheckMark" Value="#FFC4C9BB"/>
+								<Setter Property="Background" TargetName="Border" Value="#FF666666"/>
+								<Setter Property="BorderBrush" TargetName="Border" Value="#AAA"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="ComboBoxFocusVisual">
+			<Setter Property="Control.Template">
+				<Setter.Value>
+					<ControlTemplate>
+						<Rectangle Margin="4,4,21,4" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
 </ResourceDictionary>
