@@ -13,7 +13,7 @@ namespace Advanced3DVConfig.ViewModel
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int inputValue = -1;
+            int inputValue = -5;
             if (parameter == null)
                 throw new ArgumentException(
                     "A parameter representing the name of the Stereo3DKeyName must be supplied", "parameter");
@@ -28,11 +28,9 @@ namespace Advanced3DVConfig.ViewModel
                 inputValue = (bool) value ? 1 : 0;
                 if (keyName == "EnableWindowedMode" && inputValue == 1) inputValue = 5;
             }
-
-            if (Stereo3DKeys.KeySettingsDefaults.ContainsKey(keyName))
-                return inputValue != Stereo3DKeys.KeySettingsDefaults[keyName];
-            if (Stereo3DKeys.KeySettingsHotkeyDefaults.ContainsKey(keyName))
-                return inputValue != Stereo3DKeys.KeySettingsHotkeyDefaults[keyName];
+            int defaultvalue = Stereo3DRegistryKeyDefaults.GetDefaultKeyValue(keyName);
+            if (defaultvalue >= 0)
+                return inputValue != defaultvalue;
             throw new ArgumentException("No Stereo3DKeySetting matches this parameter", "parameter");
         }
 
