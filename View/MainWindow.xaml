@@ -414,8 +414,10 @@
             </TabItem>
 
         </TabControl>
-        <StackPanel Grid.Row="1" VerticalAlignment="Center">
-            <Button x:Name="SaveButton" Style="{StaticResource GreenButton}" Width="90" Click="SaveButton_OnClick" Content="_Save Settings" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <Button x:Name="SaveButton" Style="{StaticResource GreenButton}" Width="90" Click="SaveButton_OnClick" Content="_Save Settings" Margin="150,0,0,0" />
+            <Button x:Name="SaveProfileButton" Content="SaveProfile" Margin="10,0,0,0" Click="SaveProfileButton_OnClick"/>
+			<Button x:Name="LoadProfileButton" Content="LoadProfile" Margin="0,0,0,0" Click="LoadProfileButton_OnClick"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -24,8 +23,6 @@ namespace Advanced3DVConfig.View
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to save these settings to the Windows Registry?", 
-                "Confirm Save", MessageBoxButton.OKCancel, MessageBoxImage.Exclamation) == MessageBoxResult.OK)
                 _viewModel.SaveSettings();
         }
 
@@ -44,6 +41,16 @@ namespace Advanced3DVConfig.View
 
         private void ResetSettingButton_Click(object sender, RoutedEventArgs e){
             _viewModel.ResetASetting(((Button)sender).Tag.ToString());
+        }
+
+        private void SaveProfileButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _viewModel.SaveSettingsProfile();
+        }
+
+        private void LoadProfileButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _viewModel.LoadSettingsProfile();
         }
     }
 }

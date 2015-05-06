@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Microsoft.Win32;
 
 namespace Advanced3DVConfig.Model
@@ -63,54 +62,18 @@ namespace Advanced3DVConfig.Model
             return (int)keyValue;
         }
         /// <summary>
-        /// Checks for any duplicate hotkey values. Returns a string description of the duplicates, or null if all values are unique.
-        /// </summary>
-        /// <returns></returns>
-        public string CheckForDuplicateHotkeys(List<Stereo3DRegistryKey> keysToCheck){
-            var sb = new StringBuilder();
-            var groupedHotkeyValues = from s in keysToCheck.FindAll(k => k.KeyIsHotkey)
-                group s by s.KeyValue
-                into d
-                where d.Count() > 1
-                select d;
-            if (!groupedHotkeyValues.Any()) return null;
-            foreach (var groupedHotkeyValue in groupedHotkeyValues)
-            {
-                var saveValue = (from v in groupedHotkeyValue
-                    select v.KeyValue).ToArray();
-                sb.Append(String.Format("{0} - {1}", String.Join(", ", saveValue), groupedHotkeyValue.Key) +
-                          Environment.NewLine);
-            }
-            sb.Append(Environment.NewLine + "Settings not saved. Please resolve all hotkey conflicts.");
-            return sb.ToString();
-        }
-        /// <summary>
         /// Saves the current changes to the Windows registry.
         /// </summary>
         /// <returns></returns>
-        public string SaveSettingsToRegistry(List<Stereo3DRegistryKey> newSettings) {
-            var savedSettings = new StringBuilder();
-
-            var settingsToSave = from s in newSettings
-                                 where s.KeyValue != _stereo3DSettings.Find(k => k.KeyName == s.KeyName).KeyValue 
-                                 select s;
-            if (settingsToSave.Any())
+        public void SaveSettingsToRegistry(List<Stereo3DRegistryKey> newSettings) {
+            if (newSettings.Any())
             {
-                foreach (var setting in settingsToSave)
+                foreach (var setting in newSettings)
                 {
                     _stereo3DKey.SetValue(setting.KeyName, setting.KeyValue);
-                    savedSettings.Append(String.Format("{0}: {1}", setting.KeyName, setting.KeyValue) + Environment.NewLine);
+                    _stereo3DSettings.Find(k => k.KeyName == setting.KeyName).KeyValue = setting.KeyValue;
                 }
-                _stereo3DSettings = new List<Stereo3DRegistryKey>(newSettings);
             }
-            else 
-                savedSettings.Append("No settings have been changed, so nothing was saved.");
-
-            #if DEBUG
-             //   DebugWriteAllStereo3DKeys();
-            #endif
-
-            return savedSettings.ToString();
         }
 
         public void SaveSettingsToFile(string filename)
