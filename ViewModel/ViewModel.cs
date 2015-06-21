@@ -259,6 +259,8 @@ namespace Advanced3DVConfig.ViewModel
 
                 foreach (SettingsProfileEntry entry in list)
                 {
+                    if (!_viewModelRegistryKeys.ContainsKey(entry.KeyName) ||
+                        entry.Value == _viewModelRegistryKeys[entry.KeyName].KeyValue) continue;
                     _viewModelRegistryKeys[entry.KeyName] = new Stereo3DRegistryKey(entry.KeyName, entry.Value);
                     OnPropertyChanged(entry.KeyName);
                 }
