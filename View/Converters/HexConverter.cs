@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Advanced3DVConfig.ViewModel
+namespace Advanced3DVConfig.View.Converters
 {
     internal class HexConverter : IValueConverter
     {

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace Advanced3DVConfig.ViewModel
+namespace Advanced3DVConfig.View.Converters
 {
     class HexToKeyboardConverter : IValueConverter
     {

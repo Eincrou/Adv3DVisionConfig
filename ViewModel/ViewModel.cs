@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows;
-using System.Xml.Serialization;
-using Advanced3DVConfig.Annotations;
-using Advanced3DVConfig.Model;
-using DialogBoxResult = System.Windows.Forms.DialogResult;
-
-namespace Advanced3DVConfig.ViewModel
+﻿namespace Advanced3DVConfig.ViewModel
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+    using System.Text;
+    using System.Windows;
+    using System.Xml.Serialization;
+    using Advanced3DVConfig.Annotations;
+    using Advanced3DVConfig.Model;
+    using Advanced3DVConfig.ViewModel.Commands;
+    using DialogBoxResult = System.Windows.Forms.DialogResult;
     public class ViewModel : INotifyPropertyChanged
     {
         private readonly Stereo3DKeys _s3DKeys;
@@ -21,7 +21,11 @@ namespace Advanced3DVConfig.ViewModel
         #region General
         public int EnablePersistentStereoDesktop {
             get { return _viewModelRegistryKeys["EnablePersistentStereoDesktop"].KeyValue; }
-            set { _viewModelRegistryKeys["EnablePersistentStereoDesktop"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["EnablePersistentStereoDesktop"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public bool EnableWindowedMode {
             get { return _viewModelRegistryKeys["EnableWindowedMode"].KeyValue > 0; }
@@ -34,35 +38,64 @@ namespace Advanced3DVConfig.ViewModel
                     EnablePersistentStereoDesktop = 0;
                     _viewModelRegistryKeys["EnableWindowedMode"].KeyValue = 0;
                 }
+                ResetASettingCommand.OnCanExecuteChanged();
             }
         }
         public int StereoSeparation{
             get { return _viewModelRegistryKeys["StereoSeparation"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoSeparation"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoSeparation"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoToggle {
             get { return _viewModelRegistryKeys["StereoToggle"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoToggle"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoToggle"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoSeparationAdjustMore {
             get { return _viewModelRegistryKeys["StereoSeparationAdjustMore"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoSeparationAdjustMore"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoSeparationAdjustMore"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoSeparationAdjustLess {
             get { return _viewModelRegistryKeys["StereoSeparationAdjustLess"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoSeparationAdjustLess"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoSeparationAdjustLess"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoConvergenceAdjustMore {
             get { return _viewModelRegistryKeys["StereoConvergenceAdjustMore"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoConvergenceAdjustMore"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoConvergenceAdjustMore"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoConvergenceAdjustLess {
             get { return _viewModelRegistryKeys["StereoConvergenceAdjustLess"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoConvergenceAdjustLess"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoConvergenceAdjustLess"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoToggleMode {
             get { return _viewModelRegistryKeys["StereoToggleMode"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoToggleMode"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoToggleMode"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
 
         #endregion
@@ -70,46 +103,86 @@ namespace Advanced3DVConfig.ViewModel
         #region Advanced
         public int CycleFrustumAdjust {
             get { return _viewModelRegistryKeys["CycleFrustumAdjust"].KeyValue; }
-            set { _viewModelRegistryKeys["CycleFrustumAdjust"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["CycleFrustumAdjust"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int MonitorSize {
             get { return _viewModelRegistryKeys["MonitorSize"].KeyValue; }
-            set { _viewModelRegistryKeys["MonitorSize"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["MonitorSize"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoAdjustEnable {
             get { return _viewModelRegistryKeys["StereoAdjustEnable"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoAdjustEnable"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoAdjustEnable"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoDefaultOn {
             get { return _viewModelRegistryKeys["StereoDefaultOn"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoDefaultOn"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoDefaultOn"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoVisionConfirmed {
             get { return _viewModelRegistryKeys["StereoVisionConfirmed"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoVisionConfirmed"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoVisionConfirmed"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int ToggleMemo {
             get { return _viewModelRegistryKeys["ToggleMemo"].KeyValue; }
-            set { _viewModelRegistryKeys["ToggleMemo"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["ToggleMemo"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int WriteConfig {
             get { return _viewModelRegistryKeys["WriteConfig"].KeyValue; }
-            set { _viewModelRegistryKeys["WriteConfig"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["WriteConfig"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         #endregion
 
         #region Screenshots
         public int SaveStereoImage{
             get { return _viewModelRegistryKeys["SaveStereoImage"].KeyValue; }
-            set { _viewModelRegistryKeys["SaveStereoImage"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["SaveStereoImage"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int StereoImageType{
             get { return _viewModelRegistryKeys["StereoImageType"].KeyValue; }
-            set { _viewModelRegistryKeys["StereoImageType"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["StereoImageType"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int SnapShotQuality{
             get { return _viewModelRegistryKeys["SnapShotQuality"].KeyValue; }
-            set { _viewModelRegistryKeys["SnapShotQuality"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["SnapShotQuality"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         #endregion
 
@@ -117,19 +190,35 @@ namespace Advanced3DVConfig.ViewModel
         public int LaserSightEnabled
         {
             get { return _viewModelRegistryKeys["LaserSightEnabled"].KeyValue; }
-            set { _viewModelRegistryKeys["LaserSightEnabled"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["LaserSightEnabled"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
         public int ToggleLaserSight
         {
             get { return _viewModelRegistryKeys["ToggleLaserSight"].KeyValue; }
-            set { _viewModelRegistryKeys["ToggleLaserSight"].KeyValue = value; }
+            set
+            {
+                _viewModelRegistryKeys["ToggleLaserSight"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
         }
 
         #endregion
-        
+
+        #region Commands
+        public ResetASettingCommand ResetASettingCommand { get; private set; }
+        public SaveSettingsToRegistryCommand SaveSettingsToRegistryCommand { get; private set; }
+        public SaveProfileCommand SaveProfileCommand { get; private set; }
+        public LoadProfileCommand LoadProfileCommand { get; private set; }
+        public OpenImagesDirectoryCommand OpenImagesDirectoryCommand { get; set; }
+        #endregion
 
         public ViewModel()
         {
+            SetUpCommands();
             try{
                 _s3DKeys = new Stereo3DKeys();
                 _viewModelRegistryKeys = new Dictionary<string, Stereo3DRegistryKey>();
@@ -139,19 +228,29 @@ namespace Advanced3DVConfig.ViewModel
                     _viewModelRegistryKeys.Add(key.KeyName, new Stereo3DRegistryKey(key.KeyName, key.KeyValue));
                     _previousViewModelRegistryKeys.Add(key.KeyName, new Stereo3DRegistryKey(key.KeyName, key.KeyValue));
                 }
-
             }
             catch (Exception exception){
                 MessageBox.Show(exception.Message, "Registry Error");
             }
         }
 
-        public void SaveSettings()
+        private void SetUpCommands()
+        {
+            ResetASettingCommand = new ResetASettingCommand(this);
+            SaveSettingsToRegistryCommand = new SaveSettingsToRegistryCommand(this);
+            SaveProfileCommand = new SaveProfileCommand(this);
+            LoadProfileCommand = new LoadProfileCommand(this);
+            OpenImagesDirectoryCommand = new OpenImagesDirectoryCommand(this);
+            ResetASettingCommand.OnCanExecuteChanged();
+        }
+
+        public void SaveSettingsToRegistry()
         {
             List<Stereo3DRegistryKey> changedSettingsToSave = GetChangedSettings();
             if (!changedSettingsToSave.Any())
             {
-                MessageBox.Show("No settings changed, therefore no settings saved.");
+                MessageBox.Show("No settings changed, therefore no settings saved.",
+                    "Settings not saved", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             string duplicateHotkeysMessage = CheckForDuplicateHotkeys(changedSettingsToSave);
@@ -169,7 +268,8 @@ namespace Advanced3DVConfig.ViewModel
             foreach (var setting in changedSettingsToSave) {
                 _previousViewModelRegistryKeys[setting.KeyName].KeyValue = setting.KeyValue;
             }
-            MessageBox.Show("Settings saved to registry.", "Save success");
+            MessageBox.Show("Settings saved to registry.", "Save success",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private List<Stereo3DRegistryKey> GetChangedSettings()
@@ -183,6 +283,7 @@ namespace Advanced3DVConfig.ViewModel
         public void ResetASetting(string keyName){
             _viewModelRegistryKeys[keyName].ResetToDefaultValue();
             OnPropertyChanged(keyName);
+            ResetASettingCommand.OnCanExecuteChanged();
         }
         private string CheckForDuplicateHotkeys(List<Stereo3DRegistryKey> keysToCheck) {
             var sb = new StringBuilder();
@@ -226,17 +327,17 @@ namespace Advanced3DVConfig.ViewModel
                
             };
             if (dialog.ShowDialog() != DialogBoxResult.OK) return;
-                try
-                {
-                    var xml = new XmlSerializer(typeof (List<SettingsProfileEntry>));
-                    using (Stream output = dialog.OpenFile())
-                        xml.Serialize(output, new SettingsProfile(_viewModelRegistryKeys.Values).KeySettings);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Your profile could not be saved.",
-                        "Profile Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+            try
+            {
+                var xml = new XmlSerializer(typeof (List<SettingsProfileEntry>));
+                using (Stream output = dialog.OpenFile())
+                    xml.Serialize(output, new SettingsProfile(_viewModelRegistryKeys.Values).KeySettings);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Your profile could not be saved.",
+                    "Profile Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void LoadSettingsProfile()
@@ -270,6 +371,13 @@ namespace Advanced3DVConfig.ViewModel
                 MessageBox.Show("Your profile could not be loaded.",
                     "Profile Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        public object GetCurrentKeyValueByString(string keyName)
+        {
+            if(!_viewModelRegistryKeys.ContainsKey(keyName))
+                throw new ArgumentException($"No key named {keyName} was found.", nameof(keyName));
+            return _viewModelRegistryKeys[keyName].KeyValue;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
