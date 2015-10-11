@@ -5,10 +5,10 @@ namespace Advanced3DVConfig.Model
     public class Stereo3DRegistryKey : IEquatable<Stereo3DRegistryKey>
     {
         public string KeyName { get; private set; }
-        public int KeyValue { get; set; }
-        public int KeyDefaultValue { get; private set; }
+        public uint KeyValue { get; set; }
+        public uint KeyDefaultValue { get; private set; }
         public bool KeyIsHotkey { get; private set; }
-        public Stereo3DRegistryKey(string keyName, int keyValue)
+        public Stereo3DRegistryKey(string keyName, uint keyValue)
         {
             KeyName = keyName;
             KeyValue = keyValue;
@@ -16,11 +16,10 @@ namespace Advanced3DVConfig.Model
             KeyIsHotkey = Stereo3DRegistryKeyDefaults.KeyIsHotkey(keyName);
         }
 
-        public bool ResetToDefaultValue()
+        public void ResetToDefaultValue()
         {
-            if (KeyDefaultValue < 0) return false;
             KeyValue = KeyDefaultValue;
-            return true;
+
         }
 
         #region EqualityMembers
@@ -44,7 +43,7 @@ namespace Advanced3DVConfig.Model
         {
             unchecked
             {
-                return ((KeyName != null ? KeyName.GetHashCode() : 0)*397) ^ KeyValue;
+                return (int) (((KeyName != null ? KeyName.GetHashCode() : 0)*397) ^ KeyValue);
             }
         }
 

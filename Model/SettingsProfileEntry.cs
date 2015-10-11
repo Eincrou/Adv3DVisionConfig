@@ -3,13 +3,13 @@
     public class SettingsProfileEntry
     {
         public string KeyName { set; get; }
-        public int Value { get; set; }
+        public uint Value { get; set; }
         public SettingsProfileEntry()
         {
             
         }
 
-        public SettingsProfileEntry(string keyName, int value)
+        public SettingsProfileEntry(string keyName, uint value)
         {
             KeyName = keyName;
             Value = value;

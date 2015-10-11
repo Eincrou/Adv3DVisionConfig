@@ -12,18 +12,22 @@ namespace Advanced3DVConfig.Model
 
         private readonly List<string> _requestedKeys = new List<string>()
         {
-            "EnableWindowedMode", "EnablePersistentStereoDesktop", "MonitorSize", "StereoAdjustEnable", "StereoDefaultOn", "StereoSeparation", 
-            "StereoVisionConfirmed", "StereoImageType", "SnapShotQuality", "LaserSightEnabled", 
+            "EnableWindowedMode", "EnablePersistentStereoDesktop", "MonitorSize", "StereoAdjustEnable",
+            "StereoDefaultOn", "StereoSeparation", "StereoVisionConfirmed", "StereoImageType",
+            "SnapShotQuality", "LaserSightEnabled", "InterleavePattern0", "InterleavePattern1",
             //Hotkeys
-            "CycleFrustumAdjust", "DeleteConfig", "GammaAdjustLess", "GammaAdjustMore", "GlassesDelayMinus", "GlassesDelayPlus", "RHWAtScreenLess", 
-            "RHWAtScreenMore", "RHWLessAtScreenLess", "RHWLessAtScreenMore", "SaveStereoImage", "StereoConvergenceAdjustLess", "StereoConvergenceAdjustMore", 
-            "StereoSeparationAdjustLess", "StereoSeparationAdjustMore", "StereoSuggestSettings", "StereoToggle", "StereoToggleMode", "StereoUnsuggestSettings", 
+            "CycleFrustumAdjust", "DeleteConfig", "GammaAdjustLess", "GammaAdjustMore", "GlassesDelayMinus",
+            "GlassesDelayPlus", "RHWAtScreenLess", "RHWAtScreenMore", "RHWLessAtScreenLess", "RHWLessAtScreenMore",
+            "SaveStereoImage", "StereoConvergenceAdjustLess", "StereoConvergenceAdjustMore", "StereoSeparationAdjustLess",
+            "StereoSeparationAdjustMore", "StereoSuggestSettings", "StereoToggle", "StereoToggleMode", "StereoUnsuggestSettings", 
             "ToggleAutoConvergence", "ToggleAutoConvergenceRestore", "ToggleLaserSight", "ToggleMemo", "WriteConfig", 
         };
-        private List<Stereo3DRegistryKey> _stereo3DSettings = new List<Stereo3DRegistryKey>();
+        private readonly List<Stereo3DRegistryKey> _stereo3DSettings = new List<Stereo3DRegistryKey>();
         public List<Stereo3DRegistryKey> Stereo3DSettings { get { return _stereo3DSettings; }
         }
-
+        /// <summary>
+        /// Instantiates a new object to read and write NVIDIA 3D Vision registry keys
+        /// </summary>
         public Stereo3DKeys() {
             try {
                 GetStereo3DKey();
@@ -31,7 +35,6 @@ namespace Advanced3DVConfig.Model
             catch (Exception exception) {
                 throw new Exception(exception.Message);
             }
-
             ReadStereo3DKeys();
         }
 
@@ -56,26 +59,38 @@ namespace Advanced3DVConfig.Model
                 _stereo3DSettings.Add(new Stereo3DRegistryKey(reqKey, ReadKeyValue(reqKey)));
         }
 
-        private int ReadKeyValue(string keyToRead) {
+        private uint ReadKeyValue(string keyToRead)
+        {
+            if (keyToRead == "InterleavePattern0")
+            {
+                int ddd = 0;
+            }
             object keyValue = _stereo3DKey.GetValue(keyToRead);
-            if (keyValue == null) return 0;
-            return (int)keyValue;
+            if (keyValue == null)
+            {
+                keyValue = Stereo3DRegistryKeyDefaults.GetDefaultKeyValue(keyToRead);
+                _stereo3DKey.SetValue(keyToRead, keyValue);
+            }
+            return Convert.ToUInt32(keyValue);
         }
         /// <summary>
         /// Saves the current changes to the Windows registry.
         /// </summary>
         /// <returns></returns>
-        public void SaveSettingsToRegistry(List<Stereo3DRegistryKey> newSettings) {
-            if (newSettings.Any())
+        public void SaveSettingsToRegistry(List<Stereo3DRegistryKey> newSettings)
+        {
+            if (!newSettings.Any()) return;
+            foreach (var setting in newSettings)
             {
-                foreach (var setting in newSettings)
-                {
-                    _stereo3DKey.SetValue(setting.KeyName, setting.KeyValue);
-                    _stereo3DSettings.Find(k => k.KeyName == setting.KeyName).KeyValue = setting.KeyValue;
-                }
+                _stereo3DKey.SetValue(setting.KeyName, (int)setting.KeyValue, RegistryValueKind.DWord);
+                _stereo3DSettings.Find(k => k.KeyName == setting.KeyName).KeyValue = setting.KeyValue;
             }
         }
 
+        /// <summary>
+        /// Saves all keys to a text file.
+        /// </summary>
+        /// <param name="filename">Location to save the text file</param>
         public void SaveSettingsToFile(string filename)
         {
             var keysToWrite = new string[_stereo3DSettings.Count];
@@ -97,15 +112,15 @@ namespace Advanced3DVConfig.Model
             File.WriteAllLines(keysfilename, keysToWrite);
         }
 
-        private Dictionary<string, int> GetAllStereo3DValues()
+        private Dictionary<string, uint> GetAllStereo3DValues()
         {
             var allValueNames = _stereo3DKey.GetValueNames();
-            var allValues = new Dictionary<string, int>();
+            var allValues = new Dictionary<string, uint>();
             foreach (var valueName in allValueNames)
             {
                 var value = _stereo3DKey.GetValue(valueName);
                 if (value != null)
-                    allValues.Add(valueName, (int)value);
+                    allValues.Add(valueName, (uint)value);
             }
             return allValues;
         }

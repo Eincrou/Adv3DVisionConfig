@@ -10,7 +10,6 @@
         <converters:HexConverter x:Key="HexConverter" />
         <converters:HexToKeyboardConverter x:Key="HexToKeyboardConverter" />
         <converters:OnOffConverter x:Key="OnOffConverter"/>
-        <converters:SettingDefaultToBoolConverter x:Key="SettingDefaultToBoolConverter"/>
         <viewmodel:ViewModel x:Key="ViewModel"/>
     </Window.Resources>
     <Window.Background>
@@ -62,9 +61,9 @@
                     			ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <StackPanel x:Name="SeparationLessPanel" Orientation="Horizontal" Margin="0,3,0,3">
-                            <Button x:Name="StereoSeparationAdjustLessButton" Tag="StereoSeparationAdjustLess" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
+                            <Button x:Name="ResetStereoSeparationAdjustLess" Tag="StereoSeparationAdjustLess" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
                                     ToolTip="Reset StereoSeparationAdjustLess to default value"
-                                    CommandParameter="{Binding Tag, ElementName=StereoSeparationAdjustLessButton}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
+                                    CommandParameter="{Binding Tag, ElementName=ResetStereoSeparationAdjustLess}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
                             <Label Content="Separation- :" FontSize="14" Margin="0,0,23,0"
                         		ToolTip="Decreases maximum depth of the 3D scene" Target="{Binding ElementName=DepthLessBox, Mode=OneWay}" />
                             <TextBox x:Name="DepthLessBox" Width="40" MaxLength="4" FontSize="14" Margin="0,0,10,0">
@@ -80,9 +79,9 @@
                         		ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <StackPanel x:Name="SeparationMorePanel" Orientation="Horizontal" Margin="0,3,0,3">
-                            <Button x:Name="StereoSeparationAdjustMoreButton" Tag="StereoSeparationAdjustMore" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
+                            <Button x:Name="ResetStereoSeparationAdjustMore" Tag="StereoSeparationAdjustMore" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
                                     ToolTip="Reset StereoSeparationAdjustMore to default value"
-                                    CommandParameter="{Binding Tag, ElementName=StereoSeparationAdjustMoreButton}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
+                                    CommandParameter="{Binding Tag, ElementName=ResetStereoSeparationAdjustMore}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
                             <Label Content="Separation+ :" FontSize="14" Margin="0,0,19,0"
                         		ToolTip="Increases maximum depth of the 3D scene" Target="{Binding ElementName=DepthMoreBox, Mode=OneWay}" />
                             <TextBox x:Name="DepthMoreBox" Width="40" MaxLength="4" FontSize="14" Margin="0,0,10,0">
@@ -98,9 +97,9 @@
                         		ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <StackPanel x:Name="ConvergenceLessPanel" Orientation="Horizontal" Margin="0,3,-10,3">
-                            <Button x:Name="StereoConvergenceAdjustLessButton" Tag="StereoConvergenceAdjustLess" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
+                            <Button x:Name="ResetStereoConvergenceAdjustLess" Tag="StereoConvergenceAdjustLess" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
                                     ToolTip="Reset StereoConvergenceAdjustLess to default value"
-                                    CommandParameter="{Binding Tag, ElementName=StereoConvergenceAdjustLessButton}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
+                                    CommandParameter="{Binding Tag, ElementName=ResetStereoConvergenceAdjustLess}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
                             <Label Content="Convergence- :" FontSize="14" Margin="0,0,9,0"
                         		ToolTip="Makes objects appear further away." Target="{Binding ElementName=ConvergLessBox, Mode=OneWay}" />
                             <TextBox x:Name="ConvergLessBox" Width="40" MaxLength="4" Margin="0,0,10,0">
@@ -116,9 +115,9 @@
                         		 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
                         </StackPanel>
                         <StackPanel x:Name="ConvergenceMorePanel" Orientation="Horizontal" Margin="0,3,-10,3">
-                            <Button x:Name="StereoConvergenceAdjustMoreButton" Tag="StereoConvergenceAdjustMore" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
+                            <Button x:Name="ResetStereoConvergenceAdjustMore" Tag="StereoConvergenceAdjustMore" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
                                     ToolTip="Reset StereoConvergenceAdjustMore to default value"
-                                    CommandParameter="{Binding Tag, ElementName=StereoConvergenceAdjustMoreButton}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
+                                    CommandParameter="{Binding Tag, ElementName=ResetStereoConvergenceAdjustMore}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
                             <Label Content="Convergence+ :" FontSize="14" Margin="0,0,5,0"
                         		ToolTip="Makes objects appear closer." Target="{Binding ElementName=ConvergMoreBox, Mode=OneWay}" />
                             <TextBox x:Name="ConvergMoreBox" Width="40" MaxLength="4" Margin="0,0,10,0">
@@ -163,7 +162,7 @@
                     <StackPanel Margin="5">
                         <StackPanel Margin="0,5,0,0">
                             <StackPanel x:Name="MonitorSizePanel" Orientation="Horizontal">
-                                <Button Content="MonitorSize" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" IsEnabled="False"
+                                <Button x:Name="ResetMonitorSize" Content="MonitorSize" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0" IsEnabled="False"
 								    ToolTip="MonitorSize default value varies, but the NVIDIA drivers automatically reset it to default when a game is launched"/>
                                 <Label Content="_Monitor Size:" Target="{Binding ElementName=MonSizeIntUpDown}"
             						ToolTip="The size of the main display in inches, multiplied by two." />
@@ -307,7 +306,7 @@
                             <Button x:Name="ResetStereoImageType" Tag="StereoImageType" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
                                     ToolTip="Reset StereoImageType to default value"
                                     CommandParameter="{Binding Tag, ElementName=ResetStereoImageType}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
-                            <Label Content="Stereo_ImageType:" Margin="0,0,5,0" 
+                            <Label Content="Stereo _Image Type:" Margin="0,0,5,0" 
                                    ToolTip="Format for stereoscopic screenshot images. (JPEG or PNG)&#xA;Maximum number of images per application before overwrite: JPS 99, PNS 999"/>
                             <ComboBox x:Name="StereImageTypeCombo" SelectedIndex="{Binding StereoImageType, Mode=TwoWay}"
                                           FontSize="14" Height="24">
@@ -357,14 +356,14 @@
                 </Border>
             </TabItem>
 
-            <TabItem Header="Laser Sight">
+            <TabItem Header="Laser Sight / Misc.">
                 <Border BorderBrush="#FF6C6E72" BorderThickness="1" CornerRadius="4" Background="{StaticResource TabBorderBackgroundBrush}">
                     <StackPanel Margin="5">
                         <StackPanel x:Name="LaserSightEnabledPanel" Orientation="Horizontal">
                             <Button x:Name="ResetSightEnabled" Tag="LaserSightEnabled" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
                                     ToolTip="Reset LaserSightEnabled to default value"
                                     CommandParameter="{Binding Tag, ElementName=ResetSightEnabled}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
-                            <Label Content="LaserSight_Enabled:" Target="{Binding ElementName=LaserSightEnabledBox}"
+                            <Label Content="Laser Sight_ Enabled:" Target="{Binding ElementName=LaserSightEnabledBox}"
                                        ToolTip="Whether the 3D laser sight can be enabled with the hotkey or automatically by a 3D Vision game profile."/>
                             <CheckBox x:Name="LaserSightEnabledBox" VerticalAlignment="Center" Margin="5,0,0,0"
                                           IsChecked="{Binding LaserSightEnabled, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
@@ -390,6 +389,19 @@
                             <TextBlock FontSize="12" VerticalAlignment="Center"
                         		Text="{Binding Text, Converter={StaticResource HexToKeyboardConverter}, ElementName=ToggleLaserSightBox}"
                         		ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
+                        </StackPanel>
+                        <StackPanel x:Name="InterleavePatternPanel" Orientation="Horizontal">
+                            <Button x:Name="ResetInterleavePattern" Tag="InterleavePattern" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
+                        		ToolTip="Reset StereoDefaultOn to default value"
+                        		CommandParameter="{Binding Tag, ElementName=ResetInterleavePattern}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
+                            <Label Content="Swap interleave pattern:" Target="{Binding ElementName=StereoDefaultOnBox}"
+                        		ToolTip="Whether the fields are swapped for interlaced 3D displays"/>
+                            <CheckBox x:Name="InterleavePatternBox" VerticalAlignment="Center" Margin="5,0,0,0"
+                        		IsChecked="{Binding InterleavePattern, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5">
+                                <CheckBox.RenderTransform>
+                                    <ScaleTransform ScaleX="1.25" ScaleY="1.25"/>
+                                </CheckBox.RenderTransform>
+                            </CheckBox>
                         </StackPanel>
                     </StackPanel>
                 </Border>

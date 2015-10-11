@@ -19,7 +19,7 @@
         private Dictionary<string, Stereo3DRegistryKey> _viewModelRegistryKeys = new Dictionary<string, Stereo3DRegistryKey>();
         private Dictionary<string, Stereo3DRegistryKey> _previousViewModelRegistryKeys = new Dictionary<string, Stereo3DRegistryKey>();
         #region General
-        public int EnablePersistentStereoDesktop {
+        public uint EnablePersistentStereoDesktop {
             get { return _viewModelRegistryKeys["EnablePersistentStereoDesktop"].KeyValue; }
             set
             {
@@ -41,7 +41,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoSeparation{
+        public uint StereoSeparation{
             get { return _viewModelRegistryKeys["StereoSeparation"].KeyValue; }
             set
             {
@@ -49,7 +49,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoToggle {
+        public uint StereoToggle {
             get { return _viewModelRegistryKeys["StereoToggle"].KeyValue; }
             set
             {
@@ -57,7 +57,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoSeparationAdjustMore {
+        public uint StereoSeparationAdjustMore {
             get { return _viewModelRegistryKeys["StereoSeparationAdjustMore"].KeyValue; }
             set
             {
@@ -65,7 +65,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoSeparationAdjustLess {
+        public uint StereoSeparationAdjustLess {
             get { return _viewModelRegistryKeys["StereoSeparationAdjustLess"].KeyValue; }
             set
             {
@@ -73,7 +73,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoConvergenceAdjustMore {
+        public uint StereoConvergenceAdjustMore {
             get { return _viewModelRegistryKeys["StereoConvergenceAdjustMore"].KeyValue; }
             set
             {
@@ -81,7 +81,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoConvergenceAdjustLess {
+        public uint StereoConvergenceAdjustLess {
             get { return _viewModelRegistryKeys["StereoConvergenceAdjustLess"].KeyValue; }
             set
             {
@@ -89,7 +89,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoToggleMode {
+        public uint StereoToggleMode {
             get { return _viewModelRegistryKeys["StereoToggleMode"].KeyValue; }
             set
             {
@@ -101,7 +101,7 @@
         #endregion
 
         #region Advanced
-        public int CycleFrustumAdjust {
+        public uint CycleFrustumAdjust {
             get { return _viewModelRegistryKeys["CycleFrustumAdjust"].KeyValue; }
             set
             {
@@ -109,7 +109,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int MonitorSize {
+        public uint MonitorSize {
             get { return _viewModelRegistryKeys["MonitorSize"].KeyValue; }
             set
             {
@@ -117,7 +117,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoAdjustEnable {
+        public uint StereoAdjustEnable {
             get { return _viewModelRegistryKeys["StereoAdjustEnable"].KeyValue; }
             set
             {
@@ -125,7 +125,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoDefaultOn {
+        public uint StereoDefaultOn {
             get { return _viewModelRegistryKeys["StereoDefaultOn"].KeyValue; }
             set
             {
@@ -133,7 +133,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoVisionConfirmed {
+        public uint StereoVisionConfirmed {
             get { return _viewModelRegistryKeys["StereoVisionConfirmed"].KeyValue; }
             set
             {
@@ -141,7 +141,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int ToggleMemo {
+        public uint ToggleMemo {
             get { return _viewModelRegistryKeys["ToggleMemo"].KeyValue; }
             set
             {
@@ -149,7 +149,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int WriteConfig {
+        public uint WriteConfig {
             get { return _viewModelRegistryKeys["WriteConfig"].KeyValue; }
             set
             {
@@ -160,7 +160,7 @@
         #endregion
 
         #region Screenshots
-        public int SaveStereoImage{
+        public uint SaveStereoImage{
             get { return _viewModelRegistryKeys["SaveStereoImage"].KeyValue; }
             set
             {
@@ -168,7 +168,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int StereoImageType{
+        public uint StereoImageType{
             get { return _viewModelRegistryKeys["StereoImageType"].KeyValue; }
             set
             {
@@ -176,7 +176,7 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int SnapShotQuality{
+        public uint SnapShotQuality{
             get { return _viewModelRegistryKeys["SnapShotQuality"].KeyValue; }
             set
             {
@@ -186,8 +186,8 @@
         }
         #endregion
 
-        #region Laser Sight
-        public int LaserSightEnabled
+        #region Laser Sight / Etc.
+        public uint LaserSightEnabled
         {
             get { return _viewModelRegistryKeys["LaserSightEnabled"].KeyValue; }
             set
@@ -196,12 +196,28 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-        public int ToggleLaserSight
+        public uint ToggleLaserSight
         {
             get { return _viewModelRegistryKeys["ToggleLaserSight"].KeyValue; }
             set
             {
                 _viewModelRegistryKeys["ToggleLaserSight"].KeyValue = value;
+                ResetASettingCommand.OnCanExecuteChanged();
+            }
+        }
+
+        public bool InterleavePattern
+        {
+            get
+            {
+                return (_viewModelRegistryKeys["InterleavePattern0"].KeyValue == 0xFF00FF00) &&
+                       (_viewModelRegistryKeys["InterleavePattern1"].KeyValue == 0xFF00FF00);
+            }
+            set
+            {
+                uint newInterleaveValue = value ? 0xFF00FF00 : 0x00FF00FF;
+                _viewModelRegistryKeys["InterleavePattern0"].KeyValue = newInterleaveValue;
+                _viewModelRegistryKeys["InterleavePattern1"].KeyValue = newInterleaveValue;
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
@@ -280,8 +296,15 @@
             return new List<Stereo3DRegistryKey>(settingsToSave);
         }
 
-        public void ResetASetting(string keyName){
-            _viewModelRegistryKeys[keyName].ResetToDefaultValue();
+        public void ResetASetting(string keyName)
+        {
+            if (keyName == "InterleavePattern")
+            {
+                _viewModelRegistryKeys["InterleavePattern0"].ResetToDefaultValue();
+                _viewModelRegistryKeys["InterleavePattern1"].ResetToDefaultValue();
+            }
+            else
+                _viewModelRegistryKeys[keyName].ResetToDefaultValue();
             OnPropertyChanged(keyName);
             ResetASettingCommand.OnCanExecuteChanged();
         }
@@ -375,6 +398,8 @@
 
         public object GetCurrentKeyValueByString(string keyName)
         {
+            if (keyName == "InterleavePattern")
+                return _viewModelRegistryKeys["InterleavePattern0"].KeyValue;
             if(!_viewModelRegistryKeys.ContainsKey(keyName))
                 throw new ArgumentException($"No key named {keyName} was found.", nameof(keyName));
             return _viewModelRegistryKeys[keyName].KeyValue;

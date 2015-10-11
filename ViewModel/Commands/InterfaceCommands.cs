@@ -16,13 +16,13 @@
             //if (parameter == null) return false;
             if(!(parameter is string)) throw new ArgumentException($"Parameter must be a string representing the name of the Stereo3DKeyName", nameof(parameter));
             object value = _viewModel.GetCurrentKeyValueByString(parameter as string);
-            int inputValue = -5;
+            uint inputValue = 0;
             string keyName = (string)parameter;
-            if (value is int)
-                inputValue = (int)value;
+            if (value is uint)
+                inputValue = (uint)value;
             else if (value is bool)
             {
-                inputValue = (bool)value ? 1 : 0;
+                inputValue = (bool)value ? 1u : 0;
                 if (keyName == "EnableWindowedMode" && inputValue == 1) inputValue = 5;
             }
             //else if (value is string)   // Will never happen, but leaving this here in case I ever use string registry keys
@@ -30,10 +30,8 @@
             //    if (!Int32.TryParse((string)value, NumberStyles.HexNumber, null, out inputValue))
             //        return true;
             //}
-            int defaultvalue = Stereo3DRegistryKeyDefaults.GetDefaultKeyValue(keyName);
-            if (defaultvalue >= 0)
-                return inputValue != defaultvalue;
-            throw new ArgumentException("No Stereo3DKeySetting matches this parameter", nameof(parameter));
+            uint defaultvalue = Stereo3DRegistryKeyDefaults.GetDefaultKeyValue(keyName);
+            return inputValue != defaultvalue;
         }
 
         public void Execute(object parameter)

@@ -8,16 +8,17 @@ namespace Advanced3DVConfig.View.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((value is int))
-                return String.Format("{0:X4}", (int) value);
-            throw new ArgumentException("Value to Convert must be an integer", "value");
+            if (value is uint)
+                return $"{value:X4}";
+            throw new ArgumentException("Value to Convert must be an unsigned integer", nameof(value));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((value is String))
-                return Int32.Parse((string) value, NumberStyles.HexNumber);
-            throw new ArgumentException("Value to ConvertBack must be a string", "value");
+            var s = value as string;
+            if ((s != null))
+                return UInt32.Parse(s, NumberStyles.HexNumber);
+            throw new ArgumentException("Value to ConvertBack must be a string", nameof(value));
         }
     }
 }
