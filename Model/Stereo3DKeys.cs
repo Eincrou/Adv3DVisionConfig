@@ -61,17 +61,14 @@ namespace Advanced3DVConfig.Model
 
         private uint ReadKeyValue(string keyToRead)
         {
-            if (keyToRead == "InterleavePattern0")
-            {
-                int ddd = 0;
-            }
             object keyValue = _stereo3DKey.GetValue(keyToRead);
             if (keyValue == null)
             {
                 keyValue = Stereo3DRegistryKeyDefaults.GetDefaultKeyValue(keyToRead);
                 _stereo3DKey.SetValue(keyToRead, keyValue);
             }
-            return Convert.ToUInt32(keyValue);
+            int keyValueInt = Convert.ToInt32(keyValue);
+            return unchecked((uint)keyValueInt);
         }
         /// <summary>
         /// Saves the current changes to the Windows registry.

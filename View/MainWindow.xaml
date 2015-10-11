@@ -392,7 +392,7 @@
                         </StackPanel>
                         <StackPanel x:Name="InterleavePatternPanel" Orientation="Horizontal">
                             <Button x:Name="ResetInterleavePattern" Tag="InterleavePattern" Style="{DynamicResource RefreshButton}" Margin="0,0,4,0"
-                        		ToolTip="Reset StereoDefaultOn to default value"
+                        		ToolTip="Reset InterleavePattern0&amp;1 to default values"
                         		CommandParameter="{Binding Tag, ElementName=ResetInterleavePattern}" Command="{Binding ResetASettingCommand, Mode=OneWay}"/>
                             <Label Content="Swap interleave pattern:" Target="{Binding ElementName=StereoDefaultOnBox}"
                         		ToolTip="Whether the fields are swapped for interlaced 3D displays"/>
