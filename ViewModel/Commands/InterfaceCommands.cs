@@ -72,4 +72,24 @@
 
         public event EventHandler CanExecuteChanged;
     }
+
+    public class ToggleSystemRegistryLockCommand : ICommand
+    {
+        private readonly ViewModel _viewModel;
+        public ToggleSystemRegistryLockCommand(ViewModel vm)
+        {
+            _viewModel = vm;
+        }
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _viewModel.ToggleSystemRegistryLock();
+        }
+
+        public event EventHandler CanExecuteChanged;
+    }
 }

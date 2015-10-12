@@ -221,15 +221,17 @@
                 ResetASettingCommand.OnCanExecuteChanged();
             }
         }
-
         #endregion
+
+        public bool SystemPermissionsLocked { get { return _s3DKeys.SystemSetWriteDenied; } }
 
         #region Commands
         public ResetASettingCommand ResetASettingCommand { get; private set; }
         public SaveSettingsToRegistryCommand SaveSettingsToRegistryCommand { get; private set; }
         public SaveProfileCommand SaveProfileCommand { get; private set; }
         public LoadProfileCommand LoadProfileCommand { get; private set; }
-        public OpenImagesDirectoryCommand OpenImagesDirectoryCommand { get; set; }
+        public OpenImagesDirectoryCommand OpenImagesDirectoryCommand { get; private set; }
+        public ToggleSystemRegistryLockCommand ToggleSystemRegistryLockCommand { get; private set; }
         #endregion
 
         public ViewModel()
@@ -257,6 +259,7 @@
             SaveProfileCommand = new SaveProfileCommand(this);
             LoadProfileCommand = new LoadProfileCommand(this);
             OpenImagesDirectoryCommand = new OpenImagesDirectoryCommand(this);
+            ToggleSystemRegistryLockCommand = new ToggleSystemRegistryLockCommand(this);
             ResetASettingCommand.OnCanExecuteChanged();
         }
 
@@ -403,6 +406,11 @@
             if(!_viewModelRegistryKeys.ContainsKey(keyName))
                 throw new ArgumentException($"No key named {keyName} was found.", nameof(keyName));
             return _viewModelRegistryKeys[keyName].KeyValue;
+        }
+
+        public void ToggleSystemRegistryLock()
+        {
+            _s3DKeys.ToggleSystemKeyPermissions();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
